@@ -25,17 +25,6 @@ F 3 "" H 6950 6250 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Adafruit-1.2-7-seg:Adafruit-1.2"-7-Seg A4
-U 1 1 5E66F4C1
-P 8850 2300
-F 0 "A4" H 9880 2396 50  0000 L CNN
-F 1 "Adafruit-1.2\"-7-Seg" H 9880 2305 50  0000 L CNN
-F 2 "" H 7950 3100 50  0001 C CNN
-F 3 "" H 7950 3100 50  0001 C CNN
-	1    8850 2300
-	1    0    0    -1  
-$EndComp
-$Comp
 L CustomParts:Adafruit_8x8_Matrix A3
 U 1 1 5E66D79F
 P 8100 3700
@@ -446,6 +435,17 @@ F 1 "From-Dragon-12-Board" H 5750 7400 50  0000 R CNN
 F 2 "" H 4000 7550 50  0001 C CNN
 F 3 "" H 4000 7550 50  0001 C CNN
 	1    4400 4550
+	1    0    0    -1  
+$EndComp
+$Comp
+L CustomParts:Adafruit-1.2"-7-Seg A?
+U 1 1 5E66C1F5
+P 8850 2300
+F 0 "A?" H 9880 2396 50  0000 L CNN
+F 1 "Adafruit-1.2\"-7-Seg" H 9880 2305 50  0000 L CNN
+F 2 "" H 7950 3100 50  0001 C CNN
+F 3 "" H 7950 3100 50  0001 C CNN
+	1    8850 2300
 	1    0    0    -1  
 $EndComp
 $EndSCHEMATC
