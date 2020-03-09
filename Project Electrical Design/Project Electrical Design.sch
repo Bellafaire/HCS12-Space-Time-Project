@@ -46,4 +46,17 @@ F 3 "" H 7650 5200 50  0001 C CNN
 	1    6750 4500
 	1    0    0    -1  
 $EndComp
+$Comp
+L CustomParts:From-Dragon-12-Board A?
+U 1 1 5E677287
+P 1000 3850
+F 0 "A?" H 1300 6800 50  0000 R CNN
+F 1 "From-Dragon-12-Board" H 2150 6700 50  0000 R CNN
+F 2 "" H 600 6850 50  0001 C CNN
+F 3 "" H 600 6850 50  0001 C CNN
+	1    1000 3850
+	1    0    0    -1  
+$EndComp
+Text Notes 550  7750 0    50   ~ 0
+Note: the component "From-Dragon-12" is not a full description of all pins available on the dragon-12 board\n
 $EndSCHEMATC
