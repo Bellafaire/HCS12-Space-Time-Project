@@ -1,6 +1,6 @@
-#ECE3720 Final Project Abstract – Space Time 
-####Matthew James Bellafaire
-####Nicholas Musienko
+# ECE3720 Final Project Abstract – Space Time 
+#### Matthew James Bellafaire
+#### Nicholas Musienko
 
 The goal of the project is to create a simple alarm clock utilizing an SPI GPS module to acquire the GPS time signal. 
 To do this, the GPS data will be parsed to extract the time component, and that time will then be used to drive the clock. 
