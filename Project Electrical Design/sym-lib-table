@@ -1,3 +1,4 @@
 (sym_lib_table
   (lib (name CustomParts)(type Legacy)(uri "C:/Users/James/Desktop/HCS12 Space Time Project/Project Electrical Design/Custom Schematic Parts/CustomParts.lib")(options "")(descr ""))
+  (lib (name Adafruit-1.2-7-seg)(type Legacy)(uri "${KIPRJMOD}/Custom Schematic Parts/Adafruit-1.2-7-seg.lib")(options "")(descr ""))
 )
