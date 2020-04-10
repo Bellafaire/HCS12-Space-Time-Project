@@ -4,37 +4,61 @@
 
 
 
+char count = 0;
+
+ void MSDelay(unsigned int itime)
+  {
+    unsigned int i; unsigned int j;
+    for(i=0;i<itime;i++)
+      for(j=0;j<4000;j++);
+  }
+
+
 //initalization function (probably going to spin off other functions for UART and IIC)
 //for now just handles buttons
 void init(){
 
-  //init buttons as input
-  //declarations.h maps to pinout listed in schematic
-  SW1 = 0; 
-  SW2 = 0; 
-  SW3 = 0;
-  SW4 = 0;
+  initButtons();
   
-  //set pwm driving pins as outputs (temporary code)
-  SW1_PWM_PINMODE = 1; 
-  SW2_PWM_PINMODE = 1; 
-  SW3_PWM_PINMODE = 1; 
-  SW4_PWM_PINMODE = 1; 
-  
-  SW1_PWM = 1;  
 }
 
 
 
-
 void main(void) {
+  int a = 0; 
+
 
   init();
 
 	EnableInterrupts;
 
 
+
   for(;;) {
-    _FEED_COP();
+
+  //button test code, if a button is pressed this code just lights up that button
+  //note how mapping in declarations.h allows us to read the buttons   
+    if(!SW1){
+      lightButton(1, 255);   
+    } else{
+      lightButton(1, 0); 
+    }
+    if(!SW2){
+      lightButton(2, 255);   
+    } else{
+      lightButton(2, 0); 
+    }
+    
+    if(!SW3){
+      lightButton(3, 255);   
+    } else{
+      lightButton(3, 0); 
+    }
+    if(!SW4){
+      lightButton(4, 255);   
+    } else{
+      lightButton(4, 0); 
+    }
+  
   }
 }

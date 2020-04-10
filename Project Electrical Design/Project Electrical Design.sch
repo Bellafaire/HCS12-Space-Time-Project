@@ -343,14 +343,6 @@ PWM2
 Text Label 2800 4800 2    50   ~ 0
 PWM3
 Wire Wire Line
-	3450 5350 3450 2300
-Wire Wire Line
-	3400 3100 3400 5450
-Wire Wire Line
-	3350 5550 3350 3900
-Wire Wire Line
-	3300 5650 3300 4700
-Wire Wire Line
 	7250 5550 6350 5550
 Wire Wire Line
 	6250 5650 7250 5650
@@ -372,14 +364,6 @@ Wire Wire Line
 	7950 5400 8100 5400
 Wire Wire Line
 	8100 5400 8100 5300
-Wire Wire Line
-	3300 5650 3900 5650
-Wire Wire Line
-	3350 5550 3900 5550
-Wire Wire Line
-	3400 5450 3900 5450
-Wire Wire Line
-	3450 5350 3900 5350
 $Comp
 L CustomParts:From-Dragon-12-Board A1
 U 1 1 5E677287
@@ -518,12 +502,8 @@ Wire Wire Line
 	2850 2100 2850 2300
 Connection ~ 2850 2300
 Wire Wire Line
-	2850 2300 3450 2300
-Wire Wire Line
 	2850 2950 2850 3100
 Connection ~ 2850 3100
-Wire Wire Line
-	2850 3100 3400 3100
 Wire Wire Line
 	2850 3750 2850 3900
 Wire Wire Line
@@ -540,11 +520,6 @@ F 3 "" H 2850 2650 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Connection ~ 2850 3900
-Wire Wire Line
-	2850 3900 3350 3900
-Connection ~ 2850 4700
-Wire Wire Line
-	2850 4700 3300 4700
 $Comp
 L power:+5V #PWR03
 U 1 1 5E9143B4
@@ -608,4 +583,29 @@ F 3 "" H 4200 1650 50  0001 C CNN
 	1    4200 1650
 	1    0    0    -1  
 $EndComp
+Connection ~ 2850 4700
+Wire Wire Line
+	3800 2300 3800 4500
+Wire Wire Line
+	3800 4500 3900 4500
+Wire Wire Line
+	2850 2300 3800 2300
+Wire Wire Line
+	3750 3100 3750 4600
+Wire Wire Line
+	3750 4600 3900 4600
+Wire Wire Line
+	2850 3100 3750 3100
+Wire Wire Line
+	3700 3900 3700 4700
+Wire Wire Line
+	3700 4700 3900 4700
+Wire Wire Line
+	2850 3900 3700 3900
+Wire Wire Line
+	3650 4700 3650 4800
+Wire Wire Line
+	3650 4800 3900 4800
+Wire Wire Line
+	2850 4700 3650 4700
 $EndSCHEMATC
