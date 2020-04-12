@@ -15,9 +15,6 @@ FILE SECTION
 mc9s12dg256.c.o                         Model: BANKED,        Lang: ANSI-C
 main.c.o                                Model: BANKED,        Lang: ANSI-C
 Start12.c.o                             Model: BANKED,        Lang: ANSI-C
-I2C.c.o                                 Model: BANKED,        Lang: ANSI-C
-buttons.c.o                             Model: BANKED,        Lang: ANSI-C
-rtshc12.c.o (ansibi.lib)                Model: BANKED,        Lang: ANSI-C
 
 *********************************************************************************************
 STARTUP SECTION
@@ -29,8 +26,7 @@ SECTION-ALLOCATION SECTION
 Section Name                    Size  Type     From       To       Segment
 ---------------------------------------------------------------------------------------------
 .init                              7     R     0xC000     0xC006   ROM_C000
-NON_BANKED                        20     R     0xC007     0xC01A   ROM_C000
-.text                            280     R   0x308000   0x308117   PAGE_30
+.text                             21     R   0x308000   0x308014   PAGE_30
 .stack                           256   R/W     0x1000     0x10FF   RAM
 .abs_section_8                     1   N/I        0x8        0x8   .absSeg0
 .abs_section_9                     1   N/I        0x9        0x9   .absSeg1
@@ -376,7 +372,7 @@ NON_BANKED                        20     R     0xC007     0xC01A   ROM_C000
 .vectSeg341_vect                   2     R     0xFFFE     0xFFFF   .vectSeg341
 
 Summary of section sizes per section type:
-READ_ONLY (R):         135 (dec:      309)
+READ_ONLY (R):          1E (dec:       30)
 READ_WRITE (R/W):      100 (dec:      256)
 NO_INIT (N/I):         190 (dec:      400)
 
@@ -459,8 +455,8 @@ MODULE:                 -- mc9s12dg256.c.o --
      _ATD0STAT1                                  8B       1       1       0   .abs_section_8b
      _ATD0DIEN                                   8D       1       1       0   .abs_section_8d
      _PORTAD0                                    8F       1       1       0   .abs_section_8f
-     _PWME                                       A0       1       1       1   .abs_section_a0
-     _PWMPOL                                     A1       1       1       1   .abs_section_a1
+     _PWME                                       A0       1       1       0   .abs_section_a0
+     _PWMPOL                                     A1       1       1       0   .abs_section_a1
      _PWMCLK                                     A2       1       1       0   .abs_section_a2
      _PWMPRCLK                                   A3       1       1       0   .abs_section_a3
      _PWMCAE                                     A4       1       1       0   .abs_section_a4
@@ -485,11 +481,11 @@ MODULE:                 -- mc9s12dg256.c.o --
      _SPI0BR                                     DA       1       1       0   .abs_section_da
      _SPI0SR                                     DB       1       1       0   .abs_section_db
      _SPI0DR                                     DD       1       1       0   .abs_section_dd
-     _IBAD                                       E0       1       1       1   .abs_section_e0
-     _IBFD                                       E1       1       1       1   .abs_section_e1
-     _IBCR                                       E2       1       1      12   .abs_section_e2
-     _IBSR                                       E3       1       1       4   .abs_section_e3
-     _IBDR                                       E4       1       1       3   .abs_section_e4
+     _IBAD                                       E0       1       1       0   .abs_section_e0
+     _IBFD                                       E1       1       1       0   .abs_section_e1
+     _IBCR                                       E2       1       1       0   .abs_section_e2
+     _IBSR                                       E3       1       1       0   .abs_section_e3
+     _IBDR                                       E4       1       1       0   .abs_section_e4
      _SPI1CR1                                    F0       1       1       0   .abs_section_f0
      _SPI1CR2                                    F1       1       1       0   .abs_section_f1
      _SPI1BR                                     F2       1       1       0   .abs_section_f2
@@ -602,9 +598,9 @@ MODULE:                 -- mc9s12dg256.c.o --
      _PPSP                                      25D       1       1       0   .abs_section_25d
      _PIEP                                      25E       1       1       0   .abs_section_25e
      _PIFP                                      25F       1       1       0   .abs_section_25f
-     _PTH                                       260       1       1       4   .abs_section_260
+     _PTH                                       260       1       1       1   .abs_section_260
      _PTIH                                      261       1       1       0   .abs_section_261
-     _DDRH                                      262       1       1       4   .abs_section_262
+     _DDRH                                      262       1       1       0   .abs_section_262
      _RDRH                                      263       1       1       0   .abs_section_263
      _PERH                                      264       1       1       0   .abs_section_264
      _PPSH                                      265       1       1       0   .abs_section_265
@@ -675,7 +671,7 @@ MODULE:                 -- mc9s12dg256.c.o --
      _CAN4TXDSR7                                2BB       1       1       0   .abs_section_2bb
      _CAN4TXDLR                                 2BC       1       1       0   .abs_section_2bc
      _CAN4TXTBPR                                2BD       1       1       0   .abs_section_2bd
-     _PORTAB                                      0       2       2       0   .abs_section_0
+     _PORTAB                                      0       2       2       1   .abs_section_0
      _DDRAB                                       2       2       2       1   .abs_section_2
      _PARTID                                     1A       2       2       0   .abs_section_1a
      _TCNT                                       44       2       2       0   .abs_section_44
@@ -714,8 +710,8 @@ MODULE:                 -- mc9s12dg256.c.o --
      _PWMPER23                                   B6       2       2       0   .abs_section_b6
      _PWMPER45                                   B8       2       2       0   .abs_section_b8
      _PWMPER67                                   BA       2       2       0   .abs_section_ba
-     _PWMDTY01                                   BC       2       2       4   .abs_section_bc
-     _PWMDTY23                                   BE       2       2       4   .abs_section_be
+     _PWMDTY01                                   BC       2       2       0   .abs_section_bc
+     _PWMDTY23                                   BE       2       2       0   .abs_section_be
      _PWMDTY45                                   C0       2       2       0   .abs_section_c0
      _PWMDTY67                                   C2       2       2       0   .abs_section_c2
      _SCI0BD                                     C8       2       2       0   .abs_section_c8
@@ -736,8 +732,8 @@ MODULE:                 -- mc9s12dg256.c.o --
      _CAN4TXTSR                                 2BE       2       2       0   .abs_section_2be
 MODULE:                 -- main.c.o --
 - PROCEDURES:
-     init                                    308000       9       9       2   .text       
-     main                                    308009      7B     123       2   .text       
+     init                                    308000       1       1       2   .text       
+     main                                    308001      14      20       2   .text       
 - VARIABLES:
 MODULE:                 -- Start12.c.o --
 - PROCEDURES:
@@ -745,42 +741,23 @@ MODULE:                 -- Start12.c.o --
 - VARIABLES:
 - LABELS:
      __SEG_END_SSTACK                          1100       0       0       1               
-MODULE:                 -- I2C.c.o --
-- PROCEDURES:
-     initI2C                                 308084      1D      29       2   .text       
-     sendI2CDisplayCommand                   3080A1      2F      47       2   .text       
-- VARIABLES:
-MODULE:                 -- buttons.c.o --
-- PROCEDURES:
-     initButtons                             3080D0      21      33       2   .text       
-     lightButton                             3080F1      27      39       8   .text       
-- VARIABLES:
-MODULE:                 -- rtshc12.c.o (ansibi.lib) --
-- PROCEDURES:
-     _CASE_CHECKED_BYTE                        C007      14      20       1   NON_BANKED  
-- VARIABLES:
 
 *********************************************************************************************
 MODULE STATISTIC
   Name                                      Data   Code  Const
 ---------------------------------------------------------------------------------------------
   mc9s12dg256.c.o                            400      0      0
-  main.c.o                                     0    132      0
+  main.c.o                                     0     21      0
   Start12.c.o                                  0      7      0
-  I2C.c.o                                      0     76      0
-  buttons.c.o                                  0     72      0
-  rtshc12.c.o (ansibi.lib)                     0     20      0
   other                                      256      2      0
 
 *********************************************************************************************
 SECTION USE IN OBJECT-ALLOCATION SECTION
 ---------------------------------------------------------------------------------------------
 SECTION: ".text"
-  init main initI2C sendI2CDisplayCommand initButtons lightButton 
+  init main 
 SECTION: ".init"
   _Startup 
-SECTION: "NON_BANKED"
-  _CASE_CHECKED_BYTE 
 SECTION: ".abs_section_8"
   _PORTE 
 SECTION: ".abs_section_9"
@@ -1468,7 +1445,7 @@ SECTION: ".abs_section_2be"
 OBJECT LIST SORTED BY ADDRESS
      Name                                      Addr   hSize   dSize     Ref    Section   RLIB
 ---------------------------------------------------------------------------------------------
-     _PORTAB                                      0       2       2       0   .abs_section_0
+     _PORTAB                                      0       2       2       1   .abs_section_0
      _DDRAB                                       2       2       2       1   .abs_section_2
      _PORTE                                       8       1       1       0   .abs_section_8
      _DDRE                                        9       1       1       0   .abs_section_9
@@ -1565,8 +1542,8 @@ OBJECT LIST SORTED BY ADDRESS
      _ATD0DR5                                    9A       2       2       0   .abs_section_9a
      _ATD0DR6                                    9C       2       2       0   .abs_section_9c
      _ATD0DR7                                    9E       2       2       0   .abs_section_9e
-     _PWME                                       A0       1       1       1   .abs_section_a0
-     _PWMPOL                                     A1       1       1       1   .abs_section_a1
+     _PWME                                       A0       1       1       0   .abs_section_a0
+     _PWMPOL                                     A1       1       1       0   .abs_section_a1
      _PWMCLK                                     A2       1       1       0   .abs_section_a2
      _PWMPRCLK                                   A3       1       1       0   .abs_section_a3
      _PWMCAE                                     A4       1       1       0   .abs_section_a4
@@ -1581,8 +1558,8 @@ OBJECT LIST SORTED BY ADDRESS
      _PWMPER23                                   B6       2       2       0   .abs_section_b6
      _PWMPER45                                   B8       2       2       0   .abs_section_b8
      _PWMPER67                                   BA       2       2       0   .abs_section_ba
-     _PWMDTY01                                   BC       2       2       4   .abs_section_bc
-     _PWMDTY23                                   BE       2       2       4   .abs_section_be
+     _PWMDTY01                                   BC       2       2       0   .abs_section_bc
+     _PWMDTY23                                   BE       2       2       0   .abs_section_be
      _PWMDTY45                                   C0       2       2       0   .abs_section_c0
      _PWMDTY67                                   C2       2       2       0   .abs_section_c2
      _PWMSDN                                     C4       1       1       0   .abs_section_c4
@@ -1605,11 +1582,11 @@ OBJECT LIST SORTED BY ADDRESS
      _SPI0BR                                     DA       1       1       0   .abs_section_da
      _SPI0SR                                     DB       1       1       0   .abs_section_db
      _SPI0DR                                     DD       1       1       0   .abs_section_dd
-     _IBAD                                       E0       1       1       1   .abs_section_e0
-     _IBFD                                       E1       1       1       1   .abs_section_e1
-     _IBCR                                       E2       1       1      12   .abs_section_e2
-     _IBSR                                       E3       1       1       4   .abs_section_e3
-     _IBDR                                       E4       1       1       3   .abs_section_e4
+     _IBAD                                       E0       1       1       0   .abs_section_e0
+     _IBFD                                       E1       1       1       0   .abs_section_e1
+     _IBCR                                       E2       1       1       0   .abs_section_e2
+     _IBSR                                       E3       1       1       0   .abs_section_e3
+     _IBDR                                       E4       1       1       0   .abs_section_e4
      _SPI1CR1                                    F0       1       1       0   .abs_section_f0
      _SPI1CR2                                    F1       1       1       0   .abs_section_f1
      _SPI1BR                                     F2       1       1       0   .abs_section_f2
@@ -1734,9 +1711,9 @@ OBJECT LIST SORTED BY ADDRESS
      _PPSP                                      25D       1       1       0   .abs_section_25d
      _PIEP                                      25E       1       1       0   .abs_section_25e
      _PIFP                                      25F       1       1       0   .abs_section_25f
-     _PTH                                       260       1       1       4   .abs_section_260
+     _PTH                                       260       1       1       1   .abs_section_260
      _PTIH                                      261       1       1       0   .abs_section_261
-     _DDRH                                      262       1       1       4   .abs_section_262
+     _DDRH                                      262       1       1       0   .abs_section_262
      _RDRH                                      263       1       1       0   .abs_section_263
      _PERH                                      264       1       1       0   .abs_section_264
      _PPSH                                      265       1       1       0   .abs_section_265
@@ -1810,13 +1787,8 @@ OBJECT LIST SORTED BY ADDRESS
      _CAN4TXTBPR                                2BD       1       1       0   .abs_section_2bd
      _CAN4TXTSR                                 2BE       2       2       0   .abs_section_2be
      _Startup                                  C000       7       7       0   .init       
-     _CASE_CHECKED_BYTE                        C007      14      20       1   NON_BANKED  
-     init                                    308000       9       9       2   .text       
-     main                                    308009      7B     123       2   .text       
-     initI2C                                 308084      1D      29       2   .text       
-     sendI2CDisplayCommand                   3080A1      2F      47       2   .text       
-     initButtons                             3080D0      21      33       2   .text       
-     lightButton                             3080F1      27      39       8   .text       
+     init                                    308000       1       1       2   .text       
+     main                                    308001      14      20       2   .text       
 
 *********************************************************************************************
 UNUSED-OBJECTS SECTION
@@ -1824,18 +1796,9 @@ UNUSED-OBJECTS SECTION
 NOT USED PROCEDURES
 main.c.o:
   MSDelay 
-rtshc12.c.o (ansibi.lib):
-  _BSHL _BSHRS _BSHRU _BDIVMODU _BDIVMODS _ISHL _ISHRU _ISHRS _LSHL _LSHRU 
-  _LSHRS _LADD _LSUB _LAND _LOR _LXOR _LCMP _LCMP_P _LCMP_PP _LNEG _LCOM _LINC 
-  _LDEC _LMUL _LMULU16x32 _LMULS16x32 _lDivMod _LDIVU _NEG_P _LDIVS _LMODU 
-  _LMODS _ILSEXT _COPY _CASE_DIRECT _CASE_DIRECT_BYTE _CASE_CHECKED 
-  _CASE_SEARCH _CASE_SEARCH_BYTE _CASE_SEARCH_8 _CASE_SEARCH_8_BYTE _FCALL 
-  _FPCMP 
 NOT USED VARIABLES
 main.c.o:
-  numbertable count count1 i displaybuffer 
-rtshc12.c.o (ansibi.lib):
-  _PowOfTwo_8 _PowOfTwo_16 _PowOfTwo_32 errno 
+  count count1 i displaybuffer 
 
 *********************************************************************************************
 COPYDOWN SECTION
@@ -1845,13 +1808,7 @@ COPYDOWN SECTION
 OBJECT-DEPENDENCIES SECTION
 ---------------------------------------------------------------------------------------------
 _Startup                  USES __SEG_END_SSTACK main 
-init                      USES initButtons initI2C 
-main                      USES _DDRAB init sendI2CDisplayCommand _PTH 
-                                lightButton 
-initI2C                   USES _IBAD _IBFD _IBCR 
-sendI2CDisplayCommand     USES _IBSR _IBCR _IBDR 
-initButtons               USES _DDRH _PWME _PWMPOL _PWMDTY01 _PWMDTY23 
-lightButton               USES _CASE_CHECKED_BYTE _PWMDTY01 _PWMDTY23 
+main                      USES _DDRAB init _PTH _PORTAB 
 
 *********************************************************************************************
 DEPENDENCY TREE
@@ -1861,17 +1818,7 @@ DEPENDENCY TREE
  +- main                
  |  | 
  |  +- init                
- |  |  | 
- |  |  +- initButtons         
- |  |  |    
- |  |  +- initI2C             
- |  |       
- |  +- sendI2CDisplayCommand
- |  |    
- |  +- lightButton         
- |     | 
- |     +- _CASE_CHECKED_BYTE  
- |          
+ |       
  +- _Startup            
     | 
     +- main                 (see above)
@@ -1882,6 +1829,6 @@ STATISTIC SECTION
 
 ExeFile:
 --------
-Number of blocks to be downloaded: 4
-Total size of all blocks to be downloaded: 309
+Number of blocks to be downloaded: 3
+Total size of all blocks to be downloaded: 30
 
