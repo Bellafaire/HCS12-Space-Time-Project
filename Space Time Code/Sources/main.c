@@ -1,27 +1,19 @@
 #include <hidef.h>      /* common defines and macros */
 #include "derivative.h"      /* derivative-specific definitions */
+
+
 #include "Declarations.h"
-
-
 
 unsigned int  displaybuffer[8]; 
 
 char count = 0;
 char count1 = 0; 
-char i = 0; 
-
- void MSDelay(unsigned int itime)
-  {
-    unsigned int i; unsigned int j;
-    for(i=0;i<itime;i++)
-      for(j=0;j<4000;j++);
-  }
-
+char i = 0;          
 
 //initalization function (probably going to spin off other functions for UART and IIC)
 //for now just handles buttons
 void init(){
-
+  initLCD();
 }
 
 
@@ -34,7 +26,22 @@ void main(void) {
 
 	EnableInterrupts;
 	
+	writeLine("Hello world!", 0);
+	//MSDelay(1000);
+	writeLine("Testing attempt.", 1);
 	
+	MSDelay(1000);
+	clearLCD();
+	
+	setCursor(1, 5);
+  writeChar('n');
+  writeChar('O');
+  writeChar('t');
+  
+  homeLCD();
+  writeChar('Y');
+  writeChar('e');
+  writeChar('s');
   
   for(;;) {
   // sendI2CDisplayCommand(dispAddr, 0x00,   0x3F);	

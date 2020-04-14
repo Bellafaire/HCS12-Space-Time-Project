@@ -27,11 +27,13 @@
 */
 
 
-
-
 //buttons.c
-void lightButton(int num, char brightness);
-void initButtons(void);
+//void lightButton(int num, char brightness);
+//void initButtons(void);
+
+// LCD declarations
+//void sendLCD(unsigned char data, char type);
+//void initLCD(void);
 
 /*//I2C declarations
 #define DISP_I2C_ADDR 0x70
