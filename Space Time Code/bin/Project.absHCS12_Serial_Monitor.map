@@ -1,23 +1,24 @@
 *** EVALUATION ***
-PROGRAM "C:\Users\Nick\Documents\Repos\HCS12-Space-Time-Project\Space Time Code\bin\Project.absHCS12_Serial_Monitor.abs"
+PROGRAM "C:\Users\James\Desktop\HCS12-Space-Time-Project\Space Time Code\bin\Project.absHCS12_Serial_Monitor.abs"
 
 *********************************************************************************************
 TARGET SECTION
 ---------------------------------------------------------------------------------------------
 Processor   : Freescale HC12
-Memory Model: BANKED
+Memory Model: SMALL
 File Format : ELF\DWARF 2.0
 Linker      : SmartLinker V-5.0.40 Build 10203, Jul 23 2010
 
 *********************************************************************************************
 FILE SECTION
 ---------------------------------------------------------------------------------------------
-mc9s12dg256.c.o                         Model: BANKED,        Lang: ANSI-C
-main.c.o                                Model: BANKED,        Lang: ANSI-C
-Start12.c.o                             Model: BANKED,        Lang: ANSI-C
-rtshc12.c.o (ansibi.lib)                Model: BANKED,        Lang: ANSI-C
-lcd.c.o                                 Model: BANKED,        Lang: ANSI-C
-basics.c.o                              Model: BANKED,        Lang: ANSI-C
+mc9s12dg256.c.o                         Model: SMALL,         Lang: ANSI-C
+main.c.o                                Model: SMALL,         Lang: ANSI-C
+Start12.c.o                             Model: SMALL,         Lang: ANSI-C
+rtshc12.c.o (ansisi.lib)                Model: SMALL,         Lang: ANSI-C
+GPS.c.o                                 Model: SMALL,         Lang: ANSI-C
+lcd.c.o                                 Model: SMALL,         Lang: ANSI-C
+basics.c.o                              Model: SMALL,         Lang: ANSI-C
 
 *********************************************************************************************
 STARTUP SECTION
@@ -28,10 +29,9 @@ Entry point: 0xC000 (_Startup)
 SECTION-ALLOCATION SECTION
 Section Name                    Size  Type     From       To       Segment
 ---------------------------------------------------------------------------------------------
-.init                             17     R     0xC000     0xC010   ROM_C000
-.rodata1                          30     R     0xC011     0xC02E   ROM_C000
-NON_BANKED                        44     R     0xC02F     0xC05A   ROM_C000
-.text                            519     R   0x308000   0x308206   PAGE_30
+.init                             16     R     0xC000     0xC00F   ROM_C000
+.rodata1                          30     R     0xC010     0xC02D   ROM_C000
+.text                            593     R     0xC02E     0xC27E   ROM_C000
 .stack                           256   R/W     0x1000     0x10FF   RAM
 .abs_section_8                     1   N/I        0x8        0x8   .absSeg0
 .abs_section_9                     1   N/I        0x9        0x9   .absSeg1
@@ -374,11 +374,15 @@ NON_BANKED                        44     R     0xC02F     0xC05A   ROM_C000
 .abs_section_17e                   2   N/I      0x17E      0x17F   .absSeg338
 .abs_section_2ae                   2   N/I      0x2AE      0x2AF   .absSeg339
 .abs_section_2be                   2   N/I      0x2BE      0x2BF   .absSeg340
-.vectSeg341_vect                   2     R     0xFFFE     0xFFFF   .vectSeg341
+.abs_section_ffd4                  2     R     0xFFD4     0xFFD5   .absSeg341
+.bss                               2   R/W     0x1100     0x1101   RAM
+.common                          255   R/W     0x1102     0x1200   RAM
+RUNTIME                           44     R     0xC27F     0xC2AA   ROM_C000
+.vectSeg342_vect                   2     R     0xFFFE     0xFFFF   .vectSeg342
 
 Summary of section sizes per section type:
-READ_ONLY (R):         264 (dec:      612)
-READ_WRITE (R/W):      100 (dec:      256)
+READ_ONLY (R):         2AF (dec:      687)
+READ_WRITE (R/W):      201 (dec:      513)
 NO_INIT (N/I):         190 (dec:      400)
 
 *********************************************************************************************
@@ -422,12 +426,12 @@ MODULE:                 -- mc9s12dg256.c.o --
      _PPAGE                                      30       1       1       0   .abs_section_30
      _PORTK                                      32       1       1       6   .abs_section_32
      _DDRK                                       33       1       1       1   .abs_section_33
-     _SYNR                                       34       1       1       0   .abs_section_34
-     _REFDV                                      35       1       1       0   .abs_section_35
-     _CRGFLG                                     37       1       1       0   .abs_section_37
+     _SYNR                                       34       1       1       1   .abs_section_34
+     _REFDV                                      35       1       1       1   .abs_section_35
+     _CRGFLG                                     37       1       1       1   .abs_section_37
      _CRGINT                                     38       1       1       0   .abs_section_38
-     _CLKSEL                                     39       1       1       0   .abs_section_39
-     _PLLCTL                                     3A       1       1       0   .abs_section_3a
+     _CLKSEL                                     39       1       1       1   .abs_section_39
+     _PLLCTL                                     3A       1       1       1   .abs_section_3a
      _RTICTL                                     3B       1       1       0   .abs_section_3b
      _COPCTL                                     3C       1       1       0   .abs_section_3c
      _ARMCOP                                     3F       1       1       0   .abs_section_3f
@@ -475,12 +479,12 @@ MODULE:                 -- mc9s12dg256.c.o --
      _SCI0SR2                                    CD       1       1       0   .abs_section_cd
      _SCI0DRH                                    CE       1       1       0   .abs_section_ce
      _SCI0DRL                                    CF       1       1       0   .abs_section_cf
-     _SCI1CR1                                    D2       1       1       0   .abs_section_d2
-     _SCI1CR2                                    D3       1       1       0   .abs_section_d3
-     _SCI1SR1                                    D4       1       1       0   .abs_section_d4
+     _SCI1CR1                                    D2       1       1       1   .abs_section_d2
+     _SCI1CR2                                    D3       1       1       2   .abs_section_d3
+     _SCI1SR1                                    D4       1       1       1   .abs_section_d4
      _SCI1SR2                                    D5       1       1       0   .abs_section_d5
      _SCI1DRH                                    D6       1       1       0   .abs_section_d6
-     _SCI1DRL                                    D7       1       1       0   .abs_section_d7
+     _SCI1DRL                                    D7       1       1       1   .abs_section_d7
      _SPI0CR1                                    D8       1       1       0   .abs_section_d8
      _SPI0CR2                                    D9       1       1       0   .abs_section_d9
      _SPI0BR                                     DA       1       1       0   .abs_section_da
@@ -603,7 +607,7 @@ MODULE:                 -- mc9s12dg256.c.o --
      _PPSP                                      25D       1       1       0   .abs_section_25d
      _PIEP                                      25E       1       1       0   .abs_section_25e
      _PIFP                                      25F       1       1       0   .abs_section_25f
-     _PTH                                       260       1       1       1   .abs_section_260
+     _PTH                                       260       1       1       0   .abs_section_260
      _PTIH                                      261       1       1       0   .abs_section_261
      _DDRH                                      262       1       1       0   .abs_section_262
      _RDRH                                      263       1       1       0   .abs_section_263
@@ -676,7 +680,7 @@ MODULE:                 -- mc9s12dg256.c.o --
      _CAN4TXDSR7                                2BB       1       1       0   .abs_section_2bb
      _CAN4TXDLR                                 2BC       1       1       0   .abs_section_2bc
      _CAN4TXTBPR                                2BD       1       1       0   .abs_section_2bd
-     _PORTAB                                      0       2       2       1   .abs_section_0
+     _PORTAB                                      0       2       2       0   .abs_section_0
      _DDRAB                                       2       2       2       1   .abs_section_2
      _PARTID                                     1A       2       2       0   .abs_section_1a
      _TCNT                                       44       2       2       0   .abs_section_44
@@ -720,7 +724,7 @@ MODULE:                 -- mc9s12dg256.c.o --
      _PWMDTY45                                   C0       2       2       0   .abs_section_c0
      _PWMDTY67                                   C2       2       2       0   .abs_section_c2
      _SCI0BD                                     C8       2       2       0   .abs_section_c8
-     _SCI1BD                                     D0       2       2       0   .abs_section_d0
+     _SCI1BD                                     D0       2       2       2   .abs_section_d0
      _ATD1CTL23                                 122       2       2       0   .abs_section_122
      _ATD1CTL45                                 124       2       2       0   .abs_section_124
      _ATD1DR0                                   130       2       2       0   .abs_section_130
@@ -737,37 +741,47 @@ MODULE:                 -- mc9s12dg256.c.o --
      _CAN4TXTSR                                 2BE       2       2       0   .abs_section_2be
 MODULE:                 -- main.c.o --
 - PROCEDURES:
-     init                                    308000       5       5       2   .text       
-     main                                    308005      64     100       2   .text       
+     init                                      C02E       9       9       1   .text       
+     main                                      C037      70     112       1   .text       
 - VARIABLES:
-     STRING.Hello.world..1                     C011       D      13       1   .rodata1    
-     STRING.Testing.attempt..2                 C01E      11      17       1   .rodata1    
+     STRING.Hello.world..1                     C010       D      13       1   .rodata1    
+     STRING.Testing.attempt..2                 C01D      11      17       1   .rodata1    
 MODULE:                 -- Start12.c.o --
 - PROCEDURES:
-     _Startup                                  C000      11      17       0   .init       
+     _Startup                                  C000      10      16       0   .init       
 - VARIABLES:
 - LABELS:
      __SEG_END_SSTACK                          1100       0       0       1               
-MODULE:                 -- rtshc12.c.o (ansibi.lib) --
+MODULE:                 -- rtshc12.c.o (ansisi.lib) --
 - PROCEDURES:
-     _LCMP_P                                   C02F      15      21       1   NON_BANKED  
-     _LDEC                                     C044       8       8       1   NON_BANKED  
-     _LMULU16x32                               C04C       F      15       1   NON_BANKED  
+     _LCMP_P                                   C27F      15      21       1   RUNTIME     
+     _LDEC                                     C294       8       8       1   RUNTIME     
+     _LMULU16x32                               C29C       F      15       1   RUNTIME     
 - VARIABLES:
+MODULE:                 -- GPS.c.o --
+- PROCEDURES:
+     SCI1_ISR                                  C0A7      1F      31       1   .text       
+     initUART2                                 C0C6      13      19       1   .text       
+     getBufferCharacter                        C0D9       7       7       1   .text       
+- VARIABLES:
+     bufferPosition                            1100       2       2       3   .bss        
+     _Vector_21                                FFD4       2       2       0   .abs_section_ffd4
+     serialBuffer                              1102      FF     255       2   .common     
 MODULE:                 -- lcd.c.o --
 - PROCEDURES:
-     uSDelay                                 308069      24      36       6   .text       
-     sendLCD                                 30808D      38      56      16   .text       
-     clearLCD                                3080C5       A      10       4   .text       
-     homeLCD                                 3080CF       A      10       2   .text       
-     initLCD                                 3080D9      45      69       2   .text       
-     writeLine                               30811E      2E      46       4   .text       
-     setCursor                               30814C      93     147       2   .text       
-     writeChar                               3081DF       9       9       2   .text       
+     uSDelay                                   C0E0      24      36       3   .text       
+     sendLCD                                   C104      36      54       8   .text       
+     clearLCD                                  C13A       8       8       2   .text       
+     homeLCD                                   C142       8       8       2   .text       
+     initLCD                                   C14A      3C      60       1   .text       
+     writeLine                                 C186      2C      44       2   .text       
+     setCursor                                 C1B2      92     146       1   .text       
+     writeChar                                 C244       8       8       2   .text       
 - VARIABLES:
 MODULE:                 -- basics.c.o --
 - PROCEDURES:
-     MSDelay                                 3081E8      1F      31       2   .text       
+     MSDelay                                   C24C      1F      31       1   .text       
+     PLL_init                                  C26B      14      20       1   .text       
 - VARIABLES:
 
 *********************************************************************************************
@@ -775,25 +789,26 @@ MODULE STATISTIC
   Name                                      Data   Code  Const
 ---------------------------------------------------------------------------------------------
   mc9s12dg256.c.o                            400      0      0
-  main.c.o                                     0    105     30
-  Start12.c.o                                  0     17      0
-  rtshc12.c.o (ansibi.lib)                     0     44      0
-  lcd.c.o                                      0    383      0
-  basics.c.o                                   0     31      0
+  main.c.o                                     0    121     30
+  Start12.c.o                                  0     16      0
+  rtshc12.c.o (ansisi.lib)                     0     44      0
+  GPS.c.o                                    257     57      2
+  lcd.c.o                                      0    364      0
+  basics.c.o                                   0     51      0
   other                                      256      2      0
 
 *********************************************************************************************
 SECTION USE IN OBJECT-ALLOCATION SECTION
 ---------------------------------------------------------------------------------------------
 SECTION: ".text"
-  init main uSDelay sendLCD clearLCD homeLCD initLCD writeLine setCursor 
-  writeChar MSDelay 
+  init main SCI1_ISR initUART2 getBufferCharacter uSDelay sendLCD clearLCD 
+  homeLCD initLCD writeLine setCursor writeChar MSDelay PLL_init 
+SECTION: ".bss"
+  bufferPosition 
 SECTION: ".init"
   _Startup 
 SECTION: ".rodata1"
   STRING.Hello.world..1 STRING.Testing.attempt..2 
-SECTION: "NON_BANKED"
-  _LCMP_P _LDEC _LMULU16x32 
 SECTION: ".abs_section_8"
   _PORTE 
 SECTION: ".abs_section_9"
@@ -1476,12 +1491,18 @@ SECTION: ".abs_section_2ae"
   _CAN4RXTSR 
 SECTION: ".abs_section_2be"
   _CAN4TXTSR 
+SECTION: ".common"
+  serialBuffer 
+SECTION: "RUNTIME"
+  _LCMP_P _LDEC _LMULU16x32 
+SECTION: ".abs_section_ffd4"
+  _Vector_21 
 
 *********************************************************************************************
 OBJECT LIST SORTED BY ADDRESS
      Name                                      Addr   hSize   dSize     Ref    Section   RLIB
 ---------------------------------------------------------------------------------------------
-     _PORTAB                                      0       2       2       1   .abs_section_0
+     _PORTAB                                      0       2       2       0   .abs_section_0
      _DDRAB                                       2       2       2       1   .abs_section_2
      _PORTE                                       8       1       1       0   .abs_section_8
      _DDRE                                        9       1       1       0   .abs_section_9
@@ -1512,12 +1533,12 @@ OBJECT LIST SORTED BY ADDRESS
      _PPAGE                                      30       1       1       0   .abs_section_30
      _PORTK                                      32       1       1       6   .abs_section_32
      _DDRK                                       33       1       1       1   .abs_section_33
-     _SYNR                                       34       1       1       0   .abs_section_34
-     _REFDV                                      35       1       1       0   .abs_section_35
-     _CRGFLG                                     37       1       1       0   .abs_section_37
+     _SYNR                                       34       1       1       1   .abs_section_34
+     _REFDV                                      35       1       1       1   .abs_section_35
+     _CRGFLG                                     37       1       1       1   .abs_section_37
      _CRGINT                                     38       1       1       0   .abs_section_38
-     _CLKSEL                                     39       1       1       0   .abs_section_39
-     _PLLCTL                                     3A       1       1       0   .abs_section_3a
+     _CLKSEL                                     39       1       1       1   .abs_section_39
+     _PLLCTL                                     3A       1       1       1   .abs_section_3a
      _RTICTL                                     3B       1       1       0   .abs_section_3b
      _COPCTL                                     3C       1       1       0   .abs_section_3c
      _ARMCOP                                     3F       1       1       0   .abs_section_3f
@@ -1606,13 +1627,13 @@ OBJECT LIST SORTED BY ADDRESS
      _SCI0SR2                                    CD       1       1       0   .abs_section_cd
      _SCI0DRH                                    CE       1       1       0   .abs_section_ce
      _SCI0DRL                                    CF       1       1       0   .abs_section_cf
-     _SCI1BD                                     D0       2       2       0   .abs_section_d0
-     _SCI1CR1                                    D2       1       1       0   .abs_section_d2
-     _SCI1CR2                                    D3       1       1       0   .abs_section_d3
-     _SCI1SR1                                    D4       1       1       0   .abs_section_d4
+     _SCI1BD                                     D0       2       2       2   .abs_section_d0
+     _SCI1CR1                                    D2       1       1       1   .abs_section_d2
+     _SCI1CR2                                    D3       1       1       2   .abs_section_d3
+     _SCI1SR1                                    D4       1       1       1   .abs_section_d4
      _SCI1SR2                                    D5       1       1       0   .abs_section_d5
      _SCI1DRH                                    D6       1       1       0   .abs_section_d6
-     _SCI1DRL                                    D7       1       1       0   .abs_section_d7
+     _SCI1DRL                                    D7       1       1       1   .abs_section_d7
      _SPI0CR1                                    D8       1       1       0   .abs_section_d8
      _SPI0CR2                                    D9       1       1       0   .abs_section_d9
      _SPI0BR                                     DA       1       1       0   .abs_section_da
@@ -1747,7 +1768,7 @@ OBJECT LIST SORTED BY ADDRESS
      _PPSP                                      25D       1       1       0   .abs_section_25d
      _PIEP                                      25E       1       1       0   .abs_section_25e
      _PIFP                                      25F       1       1       0   .abs_section_25f
-     _PTH                                       260       1       1       1   .abs_section_260
+     _PTH                                       260       1       1       0   .abs_section_260
      _PTIH                                      261       1       1       0   .abs_section_261
      _DDRH                                      262       1       1       0   .abs_section_262
      _RDRH                                      263       1       1       0   .abs_section_263
@@ -1822,41 +1843,50 @@ OBJECT LIST SORTED BY ADDRESS
      _CAN4TXDLR                                 2BC       1       1       0   .abs_section_2bc
      _CAN4TXTBPR                                2BD       1       1       0   .abs_section_2bd
      _CAN4TXTSR                                 2BE       2       2       0   .abs_section_2be
-     _Startup                                  C000      11      17       0   .init       
-     STRING.Hello.world..1                     C011       D      13       1   .rodata1    
-     STRING.Testing.attempt..2                 C01E      11      17       1   .rodata1    
-     _LCMP_P                                   C02F      15      21       1   NON_BANKED  
-     _LDEC                                     C044       8       8       1   NON_BANKED  
-     _LMULU16x32                               C04C       F      15       1   NON_BANKED  
-     init                                    308000       5       5       2   .text       
-     main                                    308005      64     100       2   .text       
-     uSDelay                                 308069      24      36       6   .text       
-     sendLCD                                 30808D      38      56      16   .text       
-     clearLCD                                3080C5       A      10       4   .text       
-     homeLCD                                 3080CF       A      10       2   .text       
-     initLCD                                 3080D9      45      69       2   .text       
-     writeLine                               30811E      2E      46       4   .text       
-     setCursor                               30814C      93     147       2   .text       
-     writeChar                               3081DF       9       9       2   .text       
-     MSDelay                                 3081E8      1F      31       2   .text       
+     bufferPosition                            1100       2       2       3   .bss        
+     serialBuffer                              1102      FF     255       2   .common     
+     _Startup                                  C000      10      16       0   .init       
+     STRING.Hello.world..1                     C010       D      13       1   .rodata1    
+     STRING.Testing.attempt..2                 C01D      11      17       1   .rodata1    
+     init                                      C02E       9       9       1   .text       
+     main                                      C037      70     112       1   .text       
+     SCI1_ISR                                  C0A7      1F      31       1   .text       
+     initUART2                                 C0C6      13      19       1   .text       
+     getBufferCharacter                        C0D9       7       7       1   .text       
+     uSDelay                                   C0E0      24      36       3   .text       
+     sendLCD                                   C104      36      54       8   .text       
+     clearLCD                                  C13A       8       8       2   .text       
+     homeLCD                                   C142       8       8       2   .text       
+     initLCD                                   C14A      3C      60       1   .text       
+     writeLine                                 C186      2C      44       2   .text       
+     setCursor                                 C1B2      92     146       1   .text       
+     writeChar                                 C244       8       8       2   .text       
+     MSDelay                                   C24C      1F      31       1   .text       
+     PLL_init                                  C26B      14      20       1   .text       
+     _LCMP_P                                   C27F      15      21       1   RUNTIME     
+     _LDEC                                     C294       8       8       1   RUNTIME     
+     _LMULU16x32                               C29C       F      15       1   RUNTIME     
+     _Vector_21                                FFD4       2       2       0   .abs_section_ffd4
 
 *********************************************************************************************
 UNUSED-OBJECTS SECTION
 ---------------------------------------------------------------------------------------------
 NOT USED PROCEDURES
-rtshc12.c.o (ansibi.lib):
+rtshc12.c.o (ansisi.lib):
   _BSHL _BSHRS _BSHRU _BDIVMODU _BDIVMODS _ISHL _ISHRU _ISHRS _LSHL _LSHRU 
   _LSHRS _LADD _LSUB _LAND _LOR _LXOR _LCMP _LCMP_PP _LNEG _LCOM _LINC _LMUL 
   _LMULS16x32 _lDivMod _LDIVU _NEG_P _LDIVS _LMODU _LMODS _ILSEXT _COPY 
   _CASE_DIRECT _CASE_DIRECT_BYTE _CASE_CHECKED _CASE_CHECKED_BYTE _CASE_SEARCH 
   _CASE_SEARCH_BYTE _CASE_SEARCH_8 _CASE_SEARCH_8_BYTE _FCALL _FPCMP 
 basics.c.o:
-  PLL_init led_init led_write bin2ascii 
+  led_init led_write bin2ascii 
 NOT USED VARIABLES
 main.c.o:
   count count1 i displaybuffer 
-rtshc12.c.o (ansibi.lib):
+rtshc12.c.o (ansisi.lib):
   _PowOfTwo_8 _PowOfTwo_16 _PowOfTwo_32 errno 
+GPS.c.o:
+  counter 
 
 *********************************************************************************************
 COPYDOWN SECTION
@@ -1866,10 +1896,13 @@ COPYDOWN SECTION
 OBJECT-DEPENDENCIES SECTION
 ---------------------------------------------------------------------------------------------
 _Startup                  USES __SEG_END_SSTACK main 
-init                      USES initLCD 
+init                      USES initLCD PLL_init initUART2 
 main                      USES _DDRAB init STRING.Hello.world..1 writeLine 
-                                STRING.Testing.attempt..2 MSDelay clearLCD setCursor homeLCD _PTH 
-                                _PORTAB writeChar 
+                                STRING.Testing.attempt..2 MSDelay clearLCD setCursor homeLCD 
+                                getBufferCharacter writeChar 
+SCI1_ISR                  USES _SCI1SR1 bufferPosition _SCI1DRL serialBuffer 
+initUART2                 USES _SCI1BD _SCI1CR1 _SCI1CR2 
+getBufferCharacter        USES serialBuffer 
 uSDelay                   USES _LMULU16x32 _LDEC _LCMP_P 
 sendLCD                   USES _PORTK uSDelay 
 clearLCD                  USES sendLCD 
@@ -1878,6 +1911,8 @@ initLCD                   USES _DDRK sendLCD uSDelay clearLCD
 writeLine                 USES sendLCD 
 setCursor                 USES sendLCD 
 writeChar                 USES sendLCD 
+PLL_init                  USES _SYNR _REFDV _PLLCTL _CRGFLG _CLKSEL 
+_Vector_21                USES SCI1_ISR 
 
 *********************************************************************************************
 DEPENDENCY TREE
@@ -1889,23 +1924,27 @@ DEPENDENCY TREE
  |  +- init                
  |  |  | 
  |  |  +- initLCD             
- |  |     | 
- |  |     +- sendLCD             
- |  |     |  | 
- |  |     |  +- uSDelay             
- |  |     |     | 
- |  |     |     +- _LMULU16x32         
- |  |     |     |    
- |  |     |     +- _LDEC               
- |  |     |     |    
- |  |     |     +- _LCMP_P             
- |  |     |          
- |  |     +- uSDelay              (see above)
- |  |     |  
- |  |     +- clearLCD            
- |  |        | 
- |  |        +- sendLCD              (see above)
- |  |           
+ |  |  |  | 
+ |  |  |  +- sendLCD             
+ |  |  |  |  | 
+ |  |  |  |  +- uSDelay             
+ |  |  |  |     | 
+ |  |  |  |     +- _LMULU16x32         
+ |  |  |  |     |    
+ |  |  |  |     +- _LDEC               
+ |  |  |  |     |    
+ |  |  |  |     +- _LCMP_P             
+ |  |  |  |          
+ |  |  |  +- uSDelay              (see above)
+ |  |  |  |  
+ |  |  |  +- clearLCD            
+ |  |  |     | 
+ |  |  |     +- sendLCD              (see above)
+ |  |  |        
+ |  |  +- PLL_init            
+ |  |  |    
+ |  |  +- initUART2           
+ |  |       
  |  +- writeLine           
  |  |  | 
  |  |  +- sendLCD              (see above)
@@ -1922,6 +1961,8 @@ DEPENDENCY TREE
  |  |  | 
  |  |  +- sendLCD              (see above)
  |  |     
+ |  +- getBufferCharacter  
+ |  |    
  |  +- writeChar           
  |     | 
  |     +- sendLCD              (see above)
@@ -1930,6 +1971,10 @@ DEPENDENCY TREE
     | 
     +- main                 (see above)
        
+ _Vector_21          
+ | 
+ +- SCI1_ISR            
+      
 *********************************************************************************************
 STATISTIC SECTION
 ---------------------------------------------------------------------------------------------
@@ -1937,5 +1982,5 @@ STATISTIC SECTION
 ExeFile:
 --------
 Number of blocks to be downloaded: 5
-Total size of all blocks to be downloaded: 612
+Total size of all blocks to be downloaded: 687
 

@@ -1,20 +1,20 @@
 *** EVALUATION ***
-PROGRAM "C:\Users\James\Desktop\HCS12-Space-Time-Project\Space Time Code\bin\Project.abs"
+PROGRAM "J:\Dropbox\Dropbox\CSI3720 - Microprocessors\Labs\Lab 6\Lab 6\bin\Project.abs"
 
 *********************************************************************************************
 TARGET SECTION
 ---------------------------------------------------------------------------------------------
 Processor   : Freescale HC12
-Memory Model: BANKED
+Memory Model: SMALL
 File Format : ELF\DWARF 2.0
 Linker      : SmartLinker V-5.0.40 Build 10203, Jul 23 2010
 
 *********************************************************************************************
 FILE SECTION
 ---------------------------------------------------------------------------------------------
-mc9s12dg256.c.o                         Model: BANKED,        Lang: ANSI-C
-main.c.o                                Model: BANKED,        Lang: ANSI-C
-Start12.c.o                             Model: BANKED,        Lang: ANSI-C
+mc9s12dg256.c.o                         Model: SMALL,         Lang: ANSI-C
+main.c.o                                Model: SMALL,         Lang: ANSI-C
+Start12.c.o                             Model: SMALL,         Lang: ANSI-C
 
 *********************************************************************************************
 STARTUP SECTION
@@ -25,8 +25,8 @@ Entry point: 0xC000 (_Startup)
 SECTION-ALLOCATION SECTION
 Section Name                    Size  Type     From       To       Segment
 ---------------------------------------------------------------------------------------------
-.init                              7     R     0xC000     0xC006   ROM_C000
-.text                             41     R   0x308000   0x308028   PAGE_30
+.init                              6     R     0xC000     0xC005   ROM_C000
+.text                             12     R     0xC006     0xC011   ROM_C000
 .stack                           256   R/W     0x1000     0x10FF   RAM
 .abs_section_8                     1   N/I        0x8        0x8   .absSeg0
 .abs_section_9                     1   N/I        0x9        0x9   .absSeg1
@@ -369,10 +369,11 @@ Section Name                    Size  Type     From       To       Segment
 .abs_section_17e                   2   N/I      0x17E      0x17F   .absSeg338
 .abs_section_2ae                   2   N/I      0x2AE      0x2AF   .absSeg339
 .abs_section_2be                   2   N/I      0x2BE      0x2BF   .absSeg340
-.vectSeg341_vect                   2     R     0xFFFE     0xFFFF   .vectSeg341
+.abs_section_fff2                  2     R     0xFFF2     0xFFF3   .absSeg341
+.vectSeg342_vect                   2     R     0xFFFE     0xFFFF   .vectSeg342
 
 Summary of section sizes per section type:
-READ_ONLY (R):          32 (dec:       50)
+READ_ONLY (R):          16 (dec:       22)
 READ_WRITE (R/W):      100 (dec:      256)
 NO_INIT (N/I):         190 (dec:      400)
 
@@ -389,7 +390,7 @@ OBJECT-ALLOCATION SECTION
 MODULE:                 -- mc9s12dg256.c.o --
 - PROCEDURES:
 - VARIABLES:
-     _PORTE                                       8       1       1       4   .abs_section_8
+     _PORTE                                       8       1       1       0   .abs_section_8
      _DDRE                                        9       1       1       0   .abs_section_9
      _PEAR                                        A       1       1       0   .abs_section_a
      _MODE                                        B       1       1       0   .abs_section_b
@@ -590,7 +591,7 @@ MODULE:                 -- mc9s12dg256.c.o --
      _PPSM                                      255       1       1       0   .abs_section_255
      _WOMM                                      256       1       1       0   .abs_section_256
      _MODRR                                     257       1       1       0   .abs_section_257
-     _PTP                                       258       1       1       2   .abs_section_258
+     _PTP                                       258       1       1       0   .abs_section_258
      _PTIP                                      259       1       1       0   .abs_section_259
      _DDRP                                      25A       1       1       0   .abs_section_25a
      _RDRP                                      25B       1       1       0   .abs_section_25b
@@ -732,12 +733,13 @@ MODULE:                 -- mc9s12dg256.c.o --
      _CAN4TXTSR                                 2BE       2       2       0   .abs_section_2be
 MODULE:                 -- main.c.o --
 - PROCEDURES:
-     init                                    308000      1A      26       2   .text       
-     main                                    30801A       F      15       2   .text       
+     IRQ_ISR                                   C006       1       1       1   .text       
+     main                                      C007       B      11       1   .text       
 - VARIABLES:
+     _Vector_6                                 FFF2       2       2       0   .abs_section_fff2
 MODULE:                 -- Start12.c.o --
 - PROCEDURES:
-     _Startup                                  C000       7       7       0   .init       
+     _Startup                                  C000       6       6       0   .init       
 - VARIABLES:
 - LABELS:
      __SEG_END_SSTACK                          1100       0       0       1               
@@ -747,15 +749,15 @@ MODULE STATISTIC
   Name                                      Data   Code  Const
 ---------------------------------------------------------------------------------------------
   mc9s12dg256.c.o                            400      0      0
-  main.c.o                                     0     41      0
-  Start12.c.o                                  0      7      0
+  main.c.o                                     0     12      2
+  Start12.c.o                                  0      6      0
   other                                      256      2      0
 
 *********************************************************************************************
 SECTION USE IN OBJECT-ALLOCATION SECTION
 ---------------------------------------------------------------------------------------------
 SECTION: ".text"
-  init main 
+  IRQ_ISR main 
 SECTION: ".init"
   _Startup 
 SECTION: ".abs_section_8"
@@ -1440,6 +1442,8 @@ SECTION: ".abs_section_2ae"
   _CAN4RXTSR 
 SECTION: ".abs_section_2be"
   _CAN4TXTSR 
+SECTION: ".abs_section_fff2"
+  _Vector_6 
 
 *********************************************************************************************
 OBJECT LIST SORTED BY ADDRESS
@@ -1447,7 +1451,7 @@ OBJECT LIST SORTED BY ADDRESS
 ---------------------------------------------------------------------------------------------
      _PORTAB                                      0       2       2       0   .abs_section_0
      _DDRAB                                       2       2       2       0   .abs_section_2
-     _PORTE                                       8       1       1       4   .abs_section_8
+     _PORTE                                       8       1       1       0   .abs_section_8
      _DDRE                                        9       1       1       0   .abs_section_9
      _PEAR                                        A       1       1       0   .abs_section_a
      _MODE                                        B       1       1       0   .abs_section_b
@@ -1703,7 +1707,7 @@ OBJECT LIST SORTED BY ADDRESS
      _PPSM                                      255       1       1       0   .abs_section_255
      _WOMM                                      256       1       1       0   .abs_section_256
      _MODRR                                     257       1       1       0   .abs_section_257
-     _PTP                                       258       1       1       2   .abs_section_258
+     _PTP                                       258       1       1       0   .abs_section_258
      _PTIP                                      259       1       1       0   .abs_section_259
      _DDRP                                      25A       1       1       0   .abs_section_25a
      _RDRP                                      25B       1       1       0   .abs_section_25b
@@ -1786,13 +1790,17 @@ OBJECT LIST SORTED BY ADDRESS
      _CAN4TXDLR                                 2BC       1       1       0   .abs_section_2bc
      _CAN4TXTBPR                                2BD       1       1       0   .abs_section_2bd
      _CAN4TXTSR                                 2BE       2       2       0   .abs_section_2be
-     _Startup                                  C000       7       7       0   .init       
-     init                                    308000      1A      26       2   .text       
-     main                                    30801A       F      15       2   .text       
+     _Startup                                  C000       6       6       0   .init       
+     IRQ_ISR                                   C006       1       1       1   .text       
+     main                                      C007       B      11       1   .text       
+     _Vector_6                                 FFF2       2       2       0   .abs_section_fff2
 
 *********************************************************************************************
 UNUSED-OBJECTS SECTION
 ---------------------------------------------------------------------------------------------
+NOT USED PROCEDURES
+main.c.o:
+  IRQ_enable enableInterrupts disableInterrupts 
 
 *********************************************************************************************
 COPYDOWN SECTION
@@ -1802,8 +1810,7 @@ COPYDOWN SECTION
 OBJECT-DEPENDENCIES SECTION
 ---------------------------------------------------------------------------------------------
 _Startup                  USES __SEG_END_SSTACK main 
-init                      USES _PORTE _PTP 
-main                      USES init 
+_Vector_6                 USES IRQ_ISR 
 
 *********************************************************************************************
 DEPENDENCY TREE
@@ -1811,19 +1818,21 @@ DEPENDENCY TREE
  main and _Startup Group
  | 
  +- main                
- |  | 
- |  +- init                
- |       
+ |    
  +- _Startup            
     | 
     +- main                 (see above)
        
+ _Vector_6           
+ | 
+ +- IRQ_ISR             
+      
 *********************************************************************************************
 STATISTIC SECTION
 ---------------------------------------------------------------------------------------------
 
 ExeFile:
 --------
-Number of blocks to be downloaded: 3
-Total size of all blocks to be downloaded: 50
+Number of blocks to be downloaded: 4
+Total size of all blocks to be downloaded: 22
 
