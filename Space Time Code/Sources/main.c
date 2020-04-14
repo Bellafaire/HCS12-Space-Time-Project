@@ -32,7 +32,6 @@ void main(void) {
 	MSDelay(1500);
 	clearLCD();
 	
-  
   for(;;) {
   // sendI2CDisplayCommand(dispAddr, 0x00,   0x3F);	
   // button test code, if a button is pressed this code just lights up that button
