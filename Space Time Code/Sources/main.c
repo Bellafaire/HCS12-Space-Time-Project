@@ -1,12 +1,10 @@
 #include <hidef.h>      /* common defines and macros */
 #include "derivative.h"      /* derivative-specific definitions */
-#include "declarations.h"
+#include "Declarations.h"
 
 
 
 unsigned int  displaybuffer[8]; 
-
-#define dispAddr 0x70
 
 char count = 0;
 char count1 = 0; 
@@ -35,6 +33,8 @@ void main(void) {
   init();
 
 	EnableInterrupts;
+	
+	
   
   for(;;) {
   // sendI2CDisplayCommand(dispAddr, 0x00,   0x3F);	
