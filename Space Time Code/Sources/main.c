@@ -26,22 +26,12 @@ void main(void) {
 
 	EnableInterrupts;
 	
-	writeLine("Hello world!", 0);
-	//MSDelay(1000);
-	writeLine("Testing attempt.", 1);
+	writeLine("SpaceTime              ", 0);
+	writeLine("Final Project          ", 1);
 	
-	MSDelay(1000);
+	MSDelay(1500);
 	clearLCD();
 	
-	setCursor(1, 5);
-  writeChar('n');
-  writeChar('o');
-  writeChar('t');
-  
-  homeLCD();
-  writeChar('Y');
-  writeChar('e');
-  writeChar('s');
   
   for(;;) {
   // sendI2CDisplayCommand(dispAddr, 0x00,   0x3F);	
@@ -49,13 +39,24 @@ void main(void) {
   // note how mapping in declarations.h allows us to read the buttons   
   // PORTB = 0xFF ^ PTH;
   homeLCD();
+  
+  //move of a debugging line, allows us to see the GPS data as it is recieved live
   for(a = 0; a < 16; a++){
        writeChar(getBufferCharacter(a));  
-       displaybuffer[a] = 32;
+       displaybuffer[a] = 32;     //clearing the display buffer for the second line
     }
-  for(a = 0; a < 6; a++){
-      displaybuffer[a] = getTimeStringCharacter(a);
+     
+  //write the current time to the display buffer character-wise 
+  for(a = 0; a < 8; a++){
+     displaybuffer[a] = getCurrentTimeCharacter(a);
   }
+  
+  //write the timeString to the display buffere character-wise
+  for(a = 0; a < 6; a++){
+     displaybuffer[a + 10] = getTimeStringCharacter(a);
+  }
+  
+  //print display buffer to second line of the display 
   writeLine(displaybuffer, 1);
  }
 }

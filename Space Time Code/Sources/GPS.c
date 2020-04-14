@@ -6,11 +6,13 @@
 void updateDateString();
 void initUART2(void);
 void updateTimeString();
+char* getCurrentTime(); 
 
 //who needs ram? we need strings!
 char serialBuffer[SERIAL_BUFFER_SIZE];
 char dateString[7];
 char timeString[7];
+char currentTime[9];
 long counter = 0;
 int bufferPosition = 0;
 int commaCount = 0; 
@@ -31,7 +33,13 @@ int commaCount = 0;
     $GPRMC,092750.000,A,5321.6802,N,00630.3372,W,0.02,31.66,280511,,,A*43
     $GPVTG,231.59,T,,M,0.30,N,0.56,K,A*31
     
-    The relevant date and time information we want is stored in the GPRMC string, we take from this the values 092750.000 (time) and 280511 (date)
+    The relevant date and time information we want is stored in the GPRMC string, we take from this the values 092750.000 (time) and 280511 (date), 
+    We use the commas as position indicators when parsing the string, ie. if we find that we're on the 10th comma we know that the most significant digit
+    of the hour will be at commaPosition - 6 (string parsing uses this to good affect) 
+    
+    even though this ISR is more loaded than would be best practice it drives almost all the logic in this program therefore it's an acceptable compromise. 
+    using the ISR in this manner also allows for other functionality of the clock to operate more-or-less at the same time without excessive polling requirements
+    
   */
 interrupt ((0x10000 - Vsci1) / 2 - 1) void SCI1_ISR(void) {
    
@@ -74,6 +82,52 @@ interrupt ((0x10000 - Vsci1) / 2 - 1) void SCI1_ISR(void) {
   } 
 
 }
+
+//formats the GPS time given in UTC to EST, updates currentTime variable
+//offset needs to be changed inside function if required. 
+void setCurrentTime(){
+
+  //convert char hour value to integer so we can perform math on it easier
+  int currentHour = (timeString[0] - 48) * 10 + (timeString[1] - 48);
+  int a = 0; 
+  
+  //get currentTime string, we will use this as a starting point  
+  for(a = 0; a < 7; a++){
+    currentTime[a] = timeString[a]; 
+  }
+  
+  //number of hours to set back from UTC, currently that is 4 with daylight savings
+  currentHour = currentHour - 4; 
+  
+  //subtraction may give us a negative value, if this happens then rollover the value
+  if(currentHour < 0){
+    currentHour = 24 + currentHour;   
+  }
+  
+  //make it a 12 hour clock since that's what everyone's use to 
+  //Also add PM and AM to the current string depending on the time
+  if(currentHour > 12){
+    currentHour -= 12; 
+    currentTime[6] = 'P'; 
+    currentTime[7] = 'M'; 
+  }else{
+    currentTime[6] = 'A'; 
+    currentTime[7] = 'M'; 
+  }
+  
+  //convert the integer hour value back into a character and 
+  //place it back in the currentHour String
+  currentTime[0] = (currentHour/10) + 48;
+  currentTime[1] = (currentHour%10) + 48;
+}
+
+//returns the indicated character in the currentTime String
+//easier to set this up as an interface than it is to create anything fancy
+//note format is HHMMSSxM where x is either A or P
+char getCurrentTimeCharacter(int index){
+ return currentTime[index]; 
+}
+
 
 //inits UART on the second UART port, configures the uart output to a baud rate of 9600 and enables the interrupt
 //to allow for us to buffer incomming data.
@@ -139,7 +193,8 @@ void updateTimeString(){
      timeString[3] = serialBuffer[bufferPosition - 7];
      timeString[4] = serialBuffer[bufferPosition - 6];
      timeString[5] = serialBuffer[bufferPosition - 5];
-
+     
+     setCurrentTime(); //update the currentTime string so that we can get the desired timezone
 }
 
 
