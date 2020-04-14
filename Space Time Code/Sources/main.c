@@ -2,8 +2,7 @@
 #include "derivative.h"      /* derivative-specific definitions */
 #include "Declarations.h"
 
-unsigned int  displaybuffer[8]; 
-
+char displaybuffer[16]; 
 
 char count = 0;
 char count1 = 0; 
@@ -46,13 +45,18 @@ void main(void) {
   
   for(;;) {
   // sendI2CDisplayCommand(dispAddr, 0x00,   0x3F);	
-  //button test code, if a button is pressed this code just lights up that button
-  //note how mapping in declarations.h allows us to read the buttons   
- // PORTB = 0xFF ^ PTH;
+  // button test code, if a button is pressed this code just lights up that button
+  // note how mapping in declarations.h allows us to read the buttons   
+  // PORTB = 0xFF ^ PTH;
   homeLCD();
-  for(a = 0; a < 15; a++){
-       writeChar(getBufferCharacter(a)); 
+  for(a = 0; a < 16; a++){
+       writeChar(getBufferCharacter(a));  
+       displaybuffer[a] = 32;
     }
+  for(a = 0; a < 6; a++){
+      displaybuffer[a] = getTimeStringCharacter(a);
   }
+  writeLine(displaybuffer, 1);
+ }
 }
 
