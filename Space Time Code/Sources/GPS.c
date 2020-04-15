@@ -1,6 +1,9 @@
 #include <hidef.h>
 #include "derivative.h"
 
+//honestly if we're not exactly running low on ram, i'd rather
+//just not have to deal with the buffer ever having the possiblity of 
+//overflowing
 #define SERIAL_BUFFER_SIZE 511
 
 void updateDateString();
@@ -57,16 +60,17 @@ interrupt ((0x10000 - Vsci1) / 2 - 1) void SCI1_ISR(void) {
   if(serialBuffer[bufferPosition] == 44){
   //we detected a comma add to the count
     commaCount++; 
-    
-    //10 commas = possibly the date
-    if(commaCount == 10){
-      updateDateString(); 
-    }
-    
+
     //2 commas = possibly the time
     if(commaCount == 2){
       updateTimeString(); 
+    }  
+    //10 commas = possibly the date
+    else if(commaCount == 10){
+      updateDateString(); 
     }
+    
+
   }
   
   //if a new line is detected reset the position in the data buffer, we only work with one line at a time
