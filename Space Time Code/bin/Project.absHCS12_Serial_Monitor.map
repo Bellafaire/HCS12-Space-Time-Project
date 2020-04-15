@@ -19,6 +19,7 @@ rtshc12.c.o (ansisi.lib)                Model: SMALL,         Lang: ANSI-C
 GPS.c.o                                 Model: SMALL,         Lang: ANSI-C
 lcd.c.o                                 Model: SMALL,         Lang: ANSI-C
 basics.c.o                              Model: SMALL,         Lang: ANSI-C
+I2C.c.o                                 Model: SMALL,         Lang: ANSI-C
 
 *********************************************************************************************
 STARTUP SECTION
@@ -30,8 +31,9 @@ SECTION-ALLOCATION SECTION
 Section Name                    Size  Type     From       To       Segment
 ---------------------------------------------------------------------------------------------
 .init                             16     R     0xC000     0xC00F   ROM_C000
-.rodata1                          48     R     0xC010     0xC03F   ROM_C000
-.text                            834     R     0xC040     0xC381   ROM_C000
+.rodata                           16     R     0xC010     0xC01F   ROM_C000
+.rodata1                          48     R     0xC020     0xC04F   ROM_C000
+.text                           1266     R     0xC050     0xC541   ROM_C000
 .stack                           256   R/W     0x1000     0x10FF   RAM
 .abs_section_8                     1   N/I        0x8        0x8   .absSeg0
 .abs_section_9                     1   N/I        0x9        0x9   .absSeg1
@@ -376,13 +378,13 @@ Section Name                    Size  Type     From       To       Segment
 .abs_section_2be                   2   N/I      0x2BE      0x2BF   .absSeg340
 .abs_section_ffd4                  2     R     0xFFD4     0xFFD5   .absSeg341
 .bss                               4   R/W     0x1100     0x1103   RAM
-.common                          550   R/W     0x1104     0x1329   RAM
-RUNTIME                           44     R     0xC382     0xC3AD   ROM_C000
+.common                          566   R/W     0x1104     0x1339   RAM
+RUNTIME                           44     R     0xC542     0xC56D   ROM_C000
 .vectSeg342_vect                   2     R     0xFFFE     0xFFFF   .vectSeg342
 
 Summary of section sizes per section type:
-READ_ONLY (R):         3B2 (dec:      946)
-READ_WRITE (R/W):      32A (dec:      810)
+READ_ONLY (R):         572 (dec:     1394)
+READ_WRITE (R/W):      33A (dec:      826)
 NO_INIT (N/I):         190 (dec:      400)
 
 *********************************************************************************************
@@ -490,11 +492,11 @@ MODULE:                 -- mc9s12dg256.c.o --
      _SPI0BR                                     DA       1       1       0   .abs_section_da
      _SPI0SR                                     DB       1       1       0   .abs_section_db
      _SPI0DR                                     DD       1       1       0   .abs_section_dd
-     _IBAD                                       E0       1       1       0   .abs_section_e0
-     _IBFD                                       E1       1       1       0   .abs_section_e1
-     _IBCR                                       E2       1       1       0   .abs_section_e2
-     _IBSR                                       E3       1       1       0   .abs_section_e3
-     _IBDR                                       E4       1       1       0   .abs_section_e4
+     _IBAD                                       E0       1       1       1   .abs_section_e0
+     _IBFD                                       E1       1       1       1   .abs_section_e1
+     _IBCR                                       E2       1       1       5   .abs_section_e2
+     _IBSR                                       E3       1       1       4   .abs_section_e3
+     _IBDR                                       E4       1       1       2   .abs_section_e4
      _SPI1CR1                                    F0       1       1       0   .abs_section_f0
      _SPI1CR2                                    F1       1       1       0   .abs_section_f1
      _SPI1BR                                     F2       1       1       0   .abs_section_f2
@@ -741,12 +743,13 @@ MODULE:                 -- mc9s12dg256.c.o --
      _CAN4TXTSR                                 2BE       2       2       0   .abs_section_2be
 MODULE:                 -- main.c.o --
 - PROCEDURES:
-     init                                      C040       9       9       1   .text       
-     main                                      C049      7B     123       1   .text       
+     init                                      C050      27      39       1   .text       
+     main                                      C077      AE     174       2   .text       
 - VARIABLES:
-     STRING.SpaceTime............1             C010      18      24       1   .rodata1    
-     STRING.Final.Project........2             C028      18      24       1   .rodata1    
-     displaybuffer                             1104      10      16       4   .common     
+     STRING.SpaceTime............1             C020      18      24       1   .rodata1    
+     STRING.Final.Project........2             C038      18      24       1   .rodata1    
+     displaybuffer                             1104      10      16       6   .common     
+     segbuffer                                 1114      10      16       5   .common     
 MODULE:                 -- Start12.c.o --
 - PROCEDURES:
      _Startup                                  C000      10      16       0   .init       
@@ -755,55 +758,71 @@ MODULE:                 -- Start12.c.o --
      __SEG_END_SSTACK                          1100       0       0       1               
 MODULE:                 -- rtshc12.c.o (ansisi.lib) --
 - PROCEDURES:
-     _LCMP_P                                   C382      15      21       1   RUNTIME     
-     _LDEC                                     C397       8       8       1   RUNTIME     
-     _LMULU16x32                               C39F       F      15       1   RUNTIME     
+     _LCMP_P                                   C542      15      21       1   RUNTIME     
+     _LDEC                                     C557       8       8       1   RUNTIME     
+     _LMULU16x32                               C55F       F      15       1   RUNTIME     
 - VARIABLES:
 MODULE:                 -- GPS.c.o --
 - PROCEDURES:
-     SCI1_ISR                                  C0C4      47      71       1   .text       
-     setCurrentTime                            C10B      6D     109       1   .text       
-     getCurrentTimeCharacter                   C178       7       7       1   .text       
-     initUART2                                 C17F      13      19       1   .text       
-     getBufferCharacter                        C192       7       7       1   .text       
-     getTimeStringCharacter                    C199       7       7       1   .text       
-     updateTimeString                          C1A0      6C     108       1   .text       
-     updateDateString                          C20C      69     105       1   .text       
+     SCI1_ISR                                  C125      47      71       1   .text       
+     setCurrentTime                            C16C      6D     109       1   .text       
+     getCurrentTimeCharacter                   C1D9       7       7       1   .text       
+     initUART2                                 C1E0      13      19       1   .text       
+     getBufferCharacter                        C1F3       7       7       1   .text       
+     getTimeStringCharacter                    C1FA       7       7       1   .text       
+     updateTimeString                          C201      6C     108       1   .text       
+     updateDateString                          C26D      69     105       1   .text       
 - VARIABLES:
      bufferPosition                            1100       2       2       6   .bss        
      commaCount                                1102       2       2       4   .bss        
      _Vector_21                                FFD4       2       2       0   .abs_section_ffd4
-     serialBuffer                              1114     1FF     511      17   .common     
-     dateString                                1313       7       7       6   .common     
-     timeString                                131A       7       7      10   .common     
-     currentTime                               1321       9       9       6   .common     
+     serialBuffer                              1124     1FF     511      17   .common     
+     dateString                                1323       7       7       6   .common     
+     timeString                                132A       7       7      10   .common     
+     currentTime                               1331       9       9       6   .common     
 MODULE:                 -- lcd.c.o --
 - PROCEDURES:
-     uSDelay                                   C275      24      36       3   .text       
-     sendLCD                                   C299      36      54       7   .text       
-     clearLCD                                  C2CF       8       8       2   .text       
-     homeLCD                                   C2D7       8       8       1   .text       
-     initLCD                                   C2DF      3C      60       1   .text       
-     writeLine                                 C31B      2C      44       2   .text       
-     writeChar                                 C347       8       8       1   .text       
+     uSDelay                                   C2D6      24      36       3   .text       
+     sendLCD                                   C2FA      36      54       7   .text       
+     clearLCD                                  C330       8       8       2   .text       
+     homeLCD                                   C338       8       8       1   .text       
+     initLCD                                   C340      3C      60       1   .text       
+     writeLine                                 C37C      2C      44       2   .text       
+     writeChar                                 C3A8       8       8       1   .text       
 - VARIABLES:
 MODULE:                 -- basics.c.o --
 - PROCEDURES:
-     MSDelay                                   C34F      1F      31       1   .text       
-     PLL_init                                  C36E      14      20       1   .text       
+     MSDelay                                   C3B0      1F      31       6   .text       
+     PLL_init                                  C3CF      14      20       1   .text       
 - VARIABLES:
+MODULE:                 -- I2C.c.o --
+- PROCEDURES:
+     initI2C                                   C3E3       E      14       1   .text       
+     setSlaveID                                C3F1      19      25       1   .text       
+     sendByteI2C                               C40A       C      12       5   .text       
+     beginTransmit                             C416       3       3       3   .text       
+     endTransmit                               C419       7       7       3   .text       
+     initDisp                                  C420      20      32       1   .text       
+     writeDisp                                 C440      36      54       2   .text       
+     toggleColon                               C476      25      37       1   .text       
+     writeDigit                                C49B      35      53       1   .text       
+     writeNumASCII                             C4D0      5A      90       1   .text       
+     clearDisp                                 C52A      18      24       1   .text       
+- VARIABLES:
+     numbertable                               C010      10      16       1   .rodata     
 
 *********************************************************************************************
 MODULE STATISTIC
   Name                                      Data   Code  Const
 ---------------------------------------------------------------------------------------------
   mc9s12dg256.c.o                            400      0      0
-  main.c.o                                    16    132     48
+  main.c.o                                    32    213     48
   Start12.c.o                                  0     16      0
   rtshc12.c.o (ansisi.lib)                     0     44      0
   GPS.c.o                                    538    433      2
   lcd.c.o                                      0    218      0
   basics.c.o                                   0     51      0
+  I2C.c.o                                      0    351     16
   other                                      256      2      0
 
 *********************************************************************************************
@@ -813,10 +832,14 @@ SECTION: ".text"
   init main SCI1_ISR setCurrentTime getCurrentTimeCharacter initUART2 
   getBufferCharacter getTimeStringCharacter updateTimeString updateDateString 
   uSDelay sendLCD clearLCD homeLCD initLCD writeLine writeChar MSDelay PLL_init 
+  initI2C setSlaveID sendByteI2C beginTransmit endTransmit initDisp writeDisp 
+  toggleColon writeDigit writeNumASCII clearDisp 
 SECTION: ".bss"
   bufferPosition commaCount 
 SECTION: ".init"
   _Startup 
+SECTION: ".rodata"
+  numbertable 
 SECTION: ".rodata1"
   STRING.SpaceTime............1 STRING.Final.Project........2 
 SECTION: ".abs_section_8"
@@ -1502,7 +1525,7 @@ SECTION: ".abs_section_2ae"
 SECTION: ".abs_section_2be"
   _CAN4TXTSR 
 SECTION: ".common"
-  displaybuffer serialBuffer dateString timeString currentTime 
+  displaybuffer segbuffer serialBuffer dateString timeString currentTime 
 SECTION: "RUNTIME"
   _LCMP_P _LDEC _LMULU16x32 
 SECTION: ".abs_section_ffd4"
@@ -1649,11 +1672,11 @@ OBJECT LIST SORTED BY ADDRESS
      _SPI0BR                                     DA       1       1       0   .abs_section_da
      _SPI0SR                                     DB       1       1       0   .abs_section_db
      _SPI0DR                                     DD       1       1       0   .abs_section_dd
-     _IBAD                                       E0       1       1       0   .abs_section_e0
-     _IBFD                                       E1       1       1       0   .abs_section_e1
-     _IBCR                                       E2       1       1       0   .abs_section_e2
-     _IBSR                                       E3       1       1       0   .abs_section_e3
-     _IBDR                                       E4       1       1       0   .abs_section_e4
+     _IBAD                                       E0       1       1       1   .abs_section_e0
+     _IBFD                                       E1       1       1       1   .abs_section_e1
+     _IBCR                                       E2       1       1       5   .abs_section_e2
+     _IBSR                                       E3       1       1       4   .abs_section_e3
+     _IBDR                                       E4       1       1       2   .abs_section_e4
      _SPI1CR1                                    F0       1       1       0   .abs_section_f0
      _SPI1CR2                                    F1       1       1       0   .abs_section_f1
      _SPI1BR                                     F2       1       1       0   .abs_section_f2
@@ -1855,36 +1878,49 @@ OBJECT LIST SORTED BY ADDRESS
      _CAN4TXTSR                                 2BE       2       2       0   .abs_section_2be
      bufferPosition                            1100       2       2       6   .bss        
      commaCount                                1102       2       2       4   .bss        
-     displaybuffer                             1104      10      16       4   .common     
-     serialBuffer                              1114     1FF     511      17   .common     
-     dateString                                1313       7       7       6   .common     
-     timeString                                131A       7       7      10   .common     
-     currentTime                               1321       9       9       6   .common     
+     displaybuffer                             1104      10      16       6   .common     
+     segbuffer                                 1114      10      16       5   .common     
+     serialBuffer                              1124     1FF     511      17   .common     
+     dateString                                1323       7       7       6   .common     
+     timeString                                132A       7       7      10   .common     
+     currentTime                               1331       9       9       6   .common     
      _Startup                                  C000      10      16       0   .init       
-     STRING.SpaceTime............1             C010      18      24       1   .rodata1    
-     STRING.Final.Project........2             C028      18      24       1   .rodata1    
-     init                                      C040       9       9       1   .text       
-     main                                      C049      7B     123       1   .text       
-     SCI1_ISR                                  C0C4      47      71       1   .text       
-     setCurrentTime                            C10B      6D     109       1   .text       
-     getCurrentTimeCharacter                   C178       7       7       1   .text       
-     initUART2                                 C17F      13      19       1   .text       
-     getBufferCharacter                        C192       7       7       1   .text       
-     getTimeStringCharacter                    C199       7       7       1   .text       
-     updateTimeString                          C1A0      6C     108       1   .text       
-     updateDateString                          C20C      69     105       1   .text       
-     uSDelay                                   C275      24      36       3   .text       
-     sendLCD                                   C299      36      54       7   .text       
-     clearLCD                                  C2CF       8       8       2   .text       
-     homeLCD                                   C2D7       8       8       1   .text       
-     initLCD                                   C2DF      3C      60       1   .text       
-     writeLine                                 C31B      2C      44       2   .text       
-     writeChar                                 C347       8       8       1   .text       
-     MSDelay                                   C34F      1F      31       1   .text       
-     PLL_init                                  C36E      14      20       1   .text       
-     _LCMP_P                                   C382      15      21       1   RUNTIME     
-     _LDEC                                     C397       8       8       1   RUNTIME     
-     _LMULU16x32                               C39F       F      15       1   RUNTIME     
+     numbertable                               C010      10      16       1   .rodata     
+     STRING.SpaceTime............1             C020      18      24       1   .rodata1    
+     STRING.Final.Project........2             C038      18      24       1   .rodata1    
+     init                                      C050      27      39       1   .text       
+     main                                      C077      AE     174       2   .text       
+     SCI1_ISR                                  C125      47      71       1   .text       
+     setCurrentTime                            C16C      6D     109       1   .text       
+     getCurrentTimeCharacter                   C1D9       7       7       1   .text       
+     initUART2                                 C1E0      13      19       1   .text       
+     getBufferCharacter                        C1F3       7       7       1   .text       
+     getTimeStringCharacter                    C1FA       7       7       1   .text       
+     updateTimeString                          C201      6C     108       1   .text       
+     updateDateString                          C26D      69     105       1   .text       
+     uSDelay                                   C2D6      24      36       3   .text       
+     sendLCD                                   C2FA      36      54       7   .text       
+     clearLCD                                  C330       8       8       2   .text       
+     homeLCD                                   C338       8       8       1   .text       
+     initLCD                                   C340      3C      60       1   .text       
+     writeLine                                 C37C      2C      44       2   .text       
+     writeChar                                 C3A8       8       8       1   .text       
+     MSDelay                                   C3B0      1F      31       6   .text       
+     PLL_init                                  C3CF      14      20       1   .text       
+     initI2C                                   C3E3       E      14       1   .text       
+     setSlaveID                                C3F1      19      25       1   .text       
+     sendByteI2C                               C40A       C      12       5   .text       
+     beginTransmit                             C416       3       3       3   .text       
+     endTransmit                               C419       7       7       3   .text       
+     initDisp                                  C420      20      32       1   .text       
+     writeDisp                                 C440      36      54       2   .text       
+     toggleColon                               C476      25      37       1   .text       
+     writeDigit                                C49B      35      53       1   .text       
+     writeNumASCII                             C4D0      5A      90       1   .text       
+     clearDisp                                 C52A      18      24       1   .text       
+     _LCMP_P                                   C542      15      21       1   RUNTIME     
+     _LDEC                                     C557       8       8       1   RUNTIME     
+     _LMULU16x32                               C55F       F      15       1   RUNTIME     
      _Vector_21                                FFD4       2       2       0   .abs_section_ffd4
 
 *********************************************************************************************
@@ -1903,6 +1939,8 @@ lcd.c.o:
   setCursor 
 basics.c.o:
   led_init led_write bin2ascii 
+I2C.c.o:
+  checkAck blinkRate setBrightness writeNumDec writeNumHex 
 NOT USED VARIABLES
 main.c.o:
   count count1 i 
@@ -1919,11 +1957,13 @@ COPYDOWN SECTION
 OBJECT-DEPENDENCIES SECTION
 ---------------------------------------------------------------------------------------------
 _Startup                  USES __SEG_END_SSTACK main 
-init                      USES initLCD PLL_init initUART2 
+init                      USES initLCD PLL_init initUART2 initI2C MSDelay 
+                                initDisp segbuffer clearDisp writeDisp 
 main                      USES _DDRAB init STRING.SpaceTime............1 
-                                writeLine STRING.Final.Project........2 MSDelay clearLCD 
-                                homeLCD getBufferCharacter writeChar displaybuffer 
-                                getCurrentTimeCharacter getTimeStringCharacter 
+                                writeLine STRING.Final.Project........2 main MSDelay 
+                                clearLCD homeLCD getBufferCharacter writeChar 
+                                displaybuffer getCurrentTimeCharacter getTimeStringCharacter 
+                                segbuffer writeNumASCII toggleColon writeDisp 
 SCI1_ISR                  USES _SCI1SR1 bufferPosition _SCI1DRL serialBuffer 
                                 commaCount updateDateString updateTimeString 
 setCurrentTime            USES timeString currentTime 
@@ -1942,6 +1982,15 @@ initLCD                   USES _DDRK sendLCD uSDelay clearLCD
 writeLine                 USES sendLCD 
 writeChar                 USES sendLCD 
 PLL_init                  USES _SYNR _REFDV _PLLCTL _CRGFLG _CLKSEL 
+initI2C                   USES _IBCR _IBFD 
+setSlaveID                USES _IBSR _IBAD _IBCR _IBDR MSDelay 
+sendByteI2C               USES _IBDR MSDelay _IBSR 
+beginTransmit             USES setSlaveID 
+endTransmit               USES _IBCR _IBSR 
+initDisp                  USES beginTransmit sendByteI2C endTransmit 
+writeDisp                 USES beginTransmit sendByteI2C endTransmit 
+writeDigit                USES numbertable 
+writeNumASCII             USES writeDigit 
 _Vector_21                USES SCI1_ISR 
 
 *********************************************************************************************
@@ -1974,13 +2023,41 @@ DEPENDENCY TREE
  |  |  +- PLL_init            
  |  |  |    
  |  |  +- initUART2           
- |  |       
+ |  |  |    
+ |  |  +- initI2C             
+ |  |  |    
+ |  |  +- MSDelay             
+ |  |  |    
+ |  |  +- initDisp            
+ |  |  |  | 
+ |  |  |  +- beginTransmit       
+ |  |  |  |  | 
+ |  |  |  |  +- setSlaveID          
+ |  |  |  |     | 
+ |  |  |  |     +- MSDelay              (see above)
+ |  |  |  |        
+ |  |  |  +- sendByteI2C         
+ |  |  |  |  | 
+ |  |  |  |  +- MSDelay              (see above)
+ |  |  |  |     
+ |  |  |  +- endTransmit         
+ |  |  |       
+ |  |  +- clearDisp           
+ |  |  |    
+ |  |  +- writeDisp           
+ |  |     | 
+ |  |     +- beginTransmit        (see above)
+ |  |     |  
+ |  |     +- sendByteI2C          (see above)
+ |  |     |  
+ |  |     +- endTransmit          (see above)
+ |  |        
  |  +- writeLine           
  |  |  | 
  |  |  +- sendLCD              (see above)
  |  |     
- |  +- MSDelay             
- |  |    
+ |  +- MSDelay              (see above)
+ |  |  
  |  +- clearLCD             (see above)
  |  |  
  |  +- homeLCD             
@@ -1996,7 +2073,15 @@ DEPENDENCY TREE
  |  +- getCurrentTimeCharacter
  |  |    
  |  +- getTimeStringCharacter
- |       
+ |  |    
+ |  +- writeNumASCII       
+ |  |  | 
+ |  |  +- writeDigit          
+ |  |       
+ |  +- toggleColon         
+ |  |    
+ |  +- writeDisp            (see above)
+ |     
  +- _Startup            
     | 
     +- main                 (see above)
@@ -2018,5 +2103,5 @@ STATISTIC SECTION
 ExeFile:
 --------
 Number of blocks to be downloaded: 4
-Total size of all blocks to be downloaded: 946
+Total size of all blocks to be downloaded: 1394
 

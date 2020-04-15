@@ -2,23 +2,35 @@
 #include "derivative.h"      /* derivative-specific definitions */
 #include "Declarations.h"
 
-char displaybuffer[16]; 
+char displaybuffer[16];
+unsigned int segbuffer[8]; 
 
 char count = 0;
 char count1 = 0; 
 char i = 0;          
 
-//initalization function (probably going to spin off other functions for UART and IIC)
-//for now just handles buttons
+//initalization function
 void init(){
   initLCD();
   PLL_init();
   initUART2();
+  
+  // Initalization process for I2C
+  initI2C();
+  MSDelay(10);
+  initDisp();
+  MSDelay(10);
+  
+  // Clear noise on 7-seg
+  clearDisp(segbuffer);
+  writeDisp(segbuffer);
+  
 }
 
 
 void main(void) {
-  int a = 0; 
+  int a = 0;
+  char pips = 0x04; 
 
   DDRB = 0xFF;
 
@@ -33,7 +45,6 @@ void main(void) {
 	clearLCD();
 	
   for(;;) {
-  // sendI2CDisplayCommand(dispAddr, 0x00,   0x3F);	
   // button test code, if a button is pressed this code just lights up that button
   // note how mapping in declarations.h allows us to read the buttons   
   // PORTB = 0xFF ^ PTH;
@@ -57,6 +68,18 @@ void main(void) {
   
   //print display buffer to second line of the display 
   writeLine(displaybuffer, 1);
+  
+  // writes the current time to the 7-seg display
+  writeNumASCII(segbuffer, displaybuffer); 
+  if (displaybuffer[6] == 'P') {
+    pips |= 0x02;
+  }
+  toggleColon(segbuffer, pips);
+  writeDisp(segbuffer);
+  
+  MSDelay(250);
+  
+  
  }
 }
 
