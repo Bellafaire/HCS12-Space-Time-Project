@@ -769,7 +769,7 @@ MODULE:                 -- GPS.c.o --
      getCurrentTimeCharacter                   C1CD       7       7       1   .text       
      initUART2                                 C1D4      13      19       1   .text       
      getBufferCharacter                        C1E7       7       7       1   .text       
-     getTimeStringCharacter                    C1EE       7       7       1   .text       
+     getDateStringCharacter                    C1EE       7       7       1   .text       
      isANumber                                 C1F5       C      12       6   .text       
      updateTimeString                          C201      B7     183       1   .text       
      updateDateString                          C2B8      69     105       1   .text       
@@ -778,8 +778,8 @@ MODULE:                 -- GPS.c.o --
      commaCount                                1102       2       2       4   .bss        
      _Vector_21                                FFD4       2       2       0   .abs_section_ffd4
      serialBuffer                              1124     1FF     511      23   .common     
-     dateString                                1323       7       7       6   .common     
-     timeString                                132A       7       7      10   .common     
+     dateString                                1323       7       7       7   .common     
+     timeString                                132A       7       7       9   .common     
      currentTime                               1331       9       9       6   .common     
 MODULE:                 -- lcd.c.o --
 - PROCEDURES:
@@ -831,7 +831,7 @@ SECTION USE IN OBJECT-ALLOCATION SECTION
 ---------------------------------------------------------------------------------------------
 SECTION: ".text"
   init main SCI1_ISR setCurrentTime getCurrentTimeCharacter initUART2 
-  getBufferCharacter getTimeStringCharacter isANumber updateTimeString 
+  getBufferCharacter getDateStringCharacter isANumber updateTimeString 
   updateDateString uSDelay sendLCD clearLCD homeLCD initLCD writeLine writeChar 
   MSDelay PLL_init initI2C setSlaveID sendByteI2C beginTransmit endTransmit 
   initDisp writeDisp toggleColon writeDigit writeNumASCII clearDisp 
@@ -1882,8 +1882,8 @@ OBJECT LIST SORTED BY ADDRESS
      displaybuffer                             1104      10      16       5   .common     
      segbuffer                                 1114      10      16       5   .common     
      serialBuffer                              1124     1FF     511      23   .common     
-     dateString                                1323       7       7       6   .common     
-     timeString                                132A       7       7      10   .common     
+     dateString                                1323       7       7       7   .common     
+     timeString                                132A       7       7       9   .common     
      currentTime                               1331       9       9       6   .common     
      _Startup                                  C000      10      16       0   .init       
      numbertable                               C010      10      16       1   .rodata     
@@ -1896,7 +1896,7 @@ OBJECT LIST SORTED BY ADDRESS
      getCurrentTimeCharacter                   C1CD       7       7       1   .text       
      initUART2                                 C1D4      13      19       1   .text       
      getBufferCharacter                        C1E7       7       7       1   .text       
-     getTimeStringCharacter                    C1EE       7       7       1   .text       
+     getDateStringCharacter                    C1EE       7       7       1   .text       
      isANumber                                 C1F5       C      12       6   .text       
      updateTimeString                          C201      B7     183       1   .text       
      updateDateString                          C2B8      69     105       1   .text       
@@ -1936,7 +1936,7 @@ rtshc12.c.o (ansisi.lib):
   _CASE_DIRECT _CASE_DIRECT_BYTE _CASE_CHECKED _CASE_CHECKED_BYTE _CASE_SEARCH 
   _CASE_SEARCH_BYTE _CASE_SEARCH_8 _CASE_SEARCH_8_BYTE _FCALL _FPCMP 
 GPS.c.o:
-  getDateStringCharacter 
+  getTimeStringCharacter 
 lcd.c.o:
   setCursor 
 basics.c.o:
@@ -1964,7 +1964,7 @@ init                      USES initLCD PLL_init initUART2 initI2C MSDelay
 main                      USES _DDRAB init STRING.SpaceTime............1 
                                 writeLine STRING.Final.Project........2 MSDelay clearLCD 
                                 homeLCD getBufferCharacter writeChar displaybuffer 
-                                getCurrentTimeCharacter getTimeStringCharacter segbuffer writeNumASCII 
+                                getCurrentTimeCharacter getDateStringCharacter segbuffer writeNumASCII 
                                 toggleColon writeDisp 
 SCI1_ISR                  USES _SCI1SR1 bufferPosition _SCI1DRL serialBuffer 
                                 commaCount updateDateString updateTimeString 
@@ -1972,7 +1972,7 @@ setCurrentTime            USES timeString currentTime
 getCurrentTimeCharacter   USES currentTime 
 initUART2                 USES _SCI1BD _SCI1CR1 _SCI1CR2 
 getBufferCharacter        USES serialBuffer 
-getTimeStringCharacter    USES timeString 
+getDateStringCharacter    USES dateString 
 updateTimeString          USES serialBuffer bufferPosition isANumber 
                                 timeString setCurrentTime 
 updateDateString          USES serialBuffer bufferPosition dateString 
@@ -2074,7 +2074,7 @@ DEPENDENCY TREE
  |  |     
  |  +- getCurrentTimeCharacter
  |  |    
- |  +- getTimeStringCharacter
+ |  +- getDateStringCharacter
  |  |    
  |  +- writeNumASCII       
  |  |  | 

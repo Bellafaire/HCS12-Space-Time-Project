@@ -63,7 +63,7 @@ void main(void) {
   
   //write the timeString to the display buffere character-wise
   for(a = 0; a < 6; a++){
-     displaybuffer[a + 10] = getTimeStringCharacter(a);
+     displaybuffer[a + 10] = getDateStringCharacter(a);
   }
   
   //print display buffer to second line of the display 

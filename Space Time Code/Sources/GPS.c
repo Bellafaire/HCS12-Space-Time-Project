@@ -155,7 +155,9 @@ char getTimeStringCharacter(int index){
  return timeString[index]; 
 }
 
-/*returns the given index of a character in the date string*/
+/*returns the given index of a character in the date string
+  Date string is in format DDMMYY
+*/
 char getDateStringCharacter(int index){
  return dateString[index]; 
 }
