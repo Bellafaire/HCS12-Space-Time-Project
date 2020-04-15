@@ -76,10 +76,11 @@ void main(void) {
   // Leaving out for now, may be cool feature though.
   if (displaybuffer[6] == 'P') {
     pips |= 0x02;
-  } */
-  
+  } */ 
   toggleColon(segbuffer, pips);
-  writeDisp(segbuffer);
+  
+  // Error surpression - makes sure time is valid before sending to 7 seg
+  if (segbuffer[0] <= 1) writeDisp(segbuffer);
   
   MSDelay(250);
   

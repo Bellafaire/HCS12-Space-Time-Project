@@ -209,6 +209,8 @@ void writeNumHex(unsigned int* buffer, unsigned int d) {
 }
 
 /* writes an entire 4 digit number to the buffer at once from a string (no hex)
+   If 00:XX is input, 12:XX will be output
+   Supresses leading zero too.
    buffer = you need this
    str = input string (only looks at first four characters, so formatting should not matter) */
 
@@ -222,6 +224,8 @@ void writeNumASCII(unsigned int* buffer, char* str) {
  if (parts[0] == 0 && parts[1] == 0) {    // 12:00am correction
    parts[0] = 1;
    parts[1] = 2;
+ } else if (parts[0] == 0) {
+   parts[0] = 0x10;
  }
  
  for (i = 0; i < 4; i++) {
