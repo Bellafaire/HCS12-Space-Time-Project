@@ -80,7 +80,8 @@ void main(void) {
   toggleColon(segbuffer, pips);
   
   // Error surpression - makes sure time is valid before sending to 7 seg
-  if (segbuffer[0] <= 1) writeDisp(segbuffer);
+  //if (segbuffer[0] <= 1)  //I'm not sure why but this doesn't play well with the output validation of GPS.c, caused an issue where time wouldn't display at all at 10am 
+   writeDisp(segbuffer);
   
   MSDelay(250);
   
