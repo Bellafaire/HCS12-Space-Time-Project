@@ -71,9 +71,13 @@ void main(void) {
   
   // writes the current time to the 7-seg display
   writeNumASCII(segbuffer, displaybuffer); 
+  
+  /* TODO: Weird noise here. Supposed to light the upper pip if PM, but after some glitches it turns on even at 1am
+  // Leaving out for now, may be cool feature though.
   if (displaybuffer[6] == 'P') {
     pips |= 0x02;
-  }
+  } */
+  
   toggleColon(segbuffer, pips);
   writeDisp(segbuffer);
   
