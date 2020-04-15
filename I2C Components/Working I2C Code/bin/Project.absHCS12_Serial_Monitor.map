@@ -1,39 +1,32 @@
 *** EVALUATION ***
-PROGRAM "C:\Users\Nick\Desktop\OU\ECE 3720\Project_1\bin\Project.absHCS12_Serial_Monitor.abs"
+PROGRAM "C:\Users\Nick\Documents\Project_3\bin\Project.absHCS12_Serial_Monitor.abs"
 
 *********************************************************************************************
 TARGET SECTION
 ---------------------------------------------------------------------------------------------
 Processor   : Freescale HC12
-Memory Model: BANKED
+Memory Model: SMALL
 File Format : ELF\DWARF 2.0
 Linker      : SmartLinker V-5.0.40 Build 10203, Jul 23 2010
 
 *********************************************************************************************
 FILE SECTION
 ---------------------------------------------------------------------------------------------
-mc9s12dg256.c.o                         Model: BANKED,        Lang: ANSI-C
-main.c.o                                Model: BANKED,        Lang: ANSI-C
-Start12.c.o                             Model: BANKED,        Lang: ANSI-C
+mc9s12dg256.c.o                         Model: SMALL,         Lang: ANSI-C
+main.c.o                                Model: SMALL,         Lang: ANSI-C
+Start12.c.o                             Model: SMALL,         Lang: ANSI-C
 
 *********************************************************************************************
 STARTUP SECTION
 ---------------------------------------------------------------------------------------------
 Entry point: 0xC000 (_Startup)
-_startupData is allocated at 0xC00B and uses 6 Bytes
-extern struct _tagStartup {
-  unsigned nofZeroOut     0
-  _Copy    *toCopyDownBeg 0xC015
-} _startupData;
 
 *********************************************************************************************
 SECTION-ALLOCATION SECTION
 Section Name                    Size  Type     From       To       Segment
 ---------------------------------------------------------------------------------------------
-.init                             11     R     0xC000     0xC00A   ROM_C000
-.startData                        10     R     0xC00B     0xC014   ROM_C000
-.copy                              2     R     0xC015     0xC016   ROM_C000
-.text                            202     R   0x308000   0x3080C9   PAGE_30
+.init                             16     R     0xC000     0xC00F   ROM_C000
+.text                            287     R     0xC010     0xC12E   ROM_C000
 .stack                           256   R/W     0x1000     0x10FF   RAM
 .abs_section_8                     1   N/I        0x8        0x8   .absSeg0
 .abs_section_9                     1   N/I        0x9        0x9   .absSeg1
@@ -379,7 +372,7 @@ Section Name                    Size  Type     From       To       Segment
 .vectSeg341_vect                   2     R     0xFFFE     0xFFFF   .vectSeg341
 
 Summary of section sizes per section type:
-READ_ONLY (R):          E3 (dec:      227)
+READ_ONLY (R):         131 (dec:      305)
 READ_WRITE (R/W):      100 (dec:      256)
 NO_INIT (N/I):         190 (dec:      400)
 
@@ -490,8 +483,8 @@ MODULE:                 -- mc9s12dg256.c.o --
      _SPI0DR                                     DD       1       1       0   .abs_section_dd
      _IBAD                                       E0       1       1       1   .abs_section_e0
      _IBFD                                       E1       1       1       1   .abs_section_e1
-     _IBCR                                       E2       1       1       6   .abs_section_e2
-     _IBSR                                       E3       1       1       7   .abs_section_e3
+     _IBCR                                       E2       1       1       5   .abs_section_e2
+     _IBSR                                       E3       1       1       4   .abs_section_e3
      _IBDR                                       E4       1       1       2   .abs_section_e4
      _SPI1CR1                                    F0       1       1       0   .abs_section_f0
      _SPI1CR2                                    F1       1       1       0   .abs_section_f1
@@ -597,9 +590,9 @@ MODULE:                 -- mc9s12dg256.c.o --
      _PPSM                                      255       1       1       0   .abs_section_255
      _WOMM                                      256       1       1       0   .abs_section_256
      _MODRR                                     257       1       1       0   .abs_section_257
-     _PTP                                       258       1       1       1   .abs_section_258
+     _PTP                                       258       1       1       0   .abs_section_258
      _PTIP                                      259       1       1       0   .abs_section_259
-     _DDRP                                      25A       1       1       1   .abs_section_25a
+     _DDRP                                      25A       1       1       0   .abs_section_25a
      _RDRP                                      25B       1       1       0   .abs_section_25b
      _PERP                                      25C       1       1       0   .abs_section_25c
      _PPSP                                      25D       1       1       0   .abs_section_25d
@@ -613,9 +606,9 @@ MODULE:                 -- mc9s12dg256.c.o --
      _PPSH                                      265       1       1       0   .abs_section_265
      _PIEH                                      266       1       1       0   .abs_section_266
      _PIFH                                      267       1       1       0   .abs_section_267
-     _PTJ                                       268       1       1       1   .abs_section_268
+     _PTJ                                       268       1       1       0   .abs_section_268
      _PTIJ                                      269       1       1       0   .abs_section_269
-     _DDRJ                                      26A       1       1       1   .abs_section_26a
+     _DDRJ                                      26A       1       1       0   .abs_section_26a
      _RDRJ                                      26B       1       1       0   .abs_section_26b
      _PERJ                                      26C       1       1       0   .abs_section_26c
      _PPSJ                                      26D       1       1       0   .abs_section_26d
@@ -678,8 +671,8 @@ MODULE:                 -- mc9s12dg256.c.o --
      _CAN4TXDSR7                                2BB       1       1       0   .abs_section_2bb
      _CAN4TXDLR                                 2BC       1       1       0   .abs_section_2bc
      _CAN4TXTBPR                                2BD       1       1       0   .abs_section_2bd
-     _PORTAB                                      0       2       2       3   .abs_section_0
-     _DDRAB                                       2       2       2       1   .abs_section_2
+     _PORTAB                                      0       2       2       0   .abs_section_0
+     _DDRAB                                       2       2       2       0   .abs_section_2
      _PARTID                                     1A       2       2       0   .abs_section_1a
      _TCNT                                       44       2       2       0   .abs_section_44
      _TC0                                        50       2       2       0   .abs_section_50
@@ -739,20 +732,21 @@ MODULE:                 -- mc9s12dg256.c.o --
      _CAN4TXTSR                                 2BE       2       2       0   .abs_section_2be
 MODULE:                 -- main.c.o --
 - PROCEDURES:
-     initI2C                                 308000      14      20       2   .text       
-     sendSlaveID                             308014      15      21       2   .text       
-     openDisp                                308029      21      33       2   .text       
-     PLL_init                                30804A      14      20       2   .text       
-     led_init                                30805E      1B      27       2   .text       
-     led_write                               308079       3       3       2   .text       
-     main                                    30807C      25      37       2   .text       
+     MSDelay                                   C010      1F      31       6   .text       
+     PLL_init                                  C02F      14      20       1   .text       
+     initI2C                                   C043       E      14       1   .text       
+     setSlaveID                                C051      18      24       1   .text       
+     sendByteI2C                               C069       B      11       5   .text       
+     beginTransmit                             C074       3       3       3   .text       
+     endTransmit                               C077       7       7       3   .text       
+     initDisp                                  C07E      1C      28       1   .text       
+     writeDisp                                 C09A      2F      47       3   .text       
+     main                                      C0C9      66     102       1   .text       
 - VARIABLES:
 MODULE:                 -- Start12.c.o --
 - PROCEDURES:
-     Init                                    3080A1      29      41       2   .text       
-     _Startup                                  C000       B      11       0   .init       
+     _Startup                                  C000      10      16       0   .init       
 - VARIABLES:
-     _startupData                              C00B       6       6       3   .startData  
 - LABELS:
      __SEG_END_SSTACK                          1100       0       0       1               
 
@@ -761,15 +755,16 @@ MODULE STATISTIC
   Name                                      Data   Code  Const
 ---------------------------------------------------------------------------------------------
   mc9s12dg256.c.o                            400      0      0
-  main.c.o                                     0    161      0
-  Start12.c.o                                  0     52      0
-  other                                      256     12      2
+  main.c.o                                     0    287      0
+  Start12.c.o                                  0     16      0
+  other                                      256      2      0
 
 *********************************************************************************************
 SECTION USE IN OBJECT-ALLOCATION SECTION
 ---------------------------------------------------------------------------------------------
 SECTION: ".text"
-  initI2C sendSlaveID openDisp PLL_init led_init led_write main Init 
+  MSDelay PLL_init initI2C setSlaveID sendByteI2C beginTransmit endTransmit 
+  initDisp writeDisp main 
 SECTION: ".init"
   _Startup 
 SECTION: ".abs_section_8"
@@ -1459,8 +1454,8 @@ SECTION: ".abs_section_2be"
 OBJECT LIST SORTED BY ADDRESS
      Name                                      Addr   hSize   dSize     Ref    Section   RLIB
 ---------------------------------------------------------------------------------------------
-     _PORTAB                                      0       2       2       3   .abs_section_0
-     _DDRAB                                       2       2       2       1   .abs_section_2
+     _PORTAB                                      0       2       2       0   .abs_section_0
+     _DDRAB                                       2       2       2       0   .abs_section_2
      _PORTE                                       8       1       1       0   .abs_section_8
      _DDRE                                        9       1       1       0   .abs_section_9
      _PEAR                                        A       1       1       0   .abs_section_a
@@ -1598,8 +1593,8 @@ OBJECT LIST SORTED BY ADDRESS
      _SPI0DR                                     DD       1       1       0   .abs_section_dd
      _IBAD                                       E0       1       1       1   .abs_section_e0
      _IBFD                                       E1       1       1       1   .abs_section_e1
-     _IBCR                                       E2       1       1       6   .abs_section_e2
-     _IBSR                                       E3       1       1       7   .abs_section_e3
+     _IBCR                                       E2       1       1       5   .abs_section_e2
+     _IBSR                                       E3       1       1       4   .abs_section_e3
      _IBDR                                       E4       1       1       2   .abs_section_e4
      _SPI1CR1                                    F0       1       1       0   .abs_section_f0
      _SPI1CR2                                    F1       1       1       0   .abs_section_f1
@@ -1717,9 +1712,9 @@ OBJECT LIST SORTED BY ADDRESS
      _PPSM                                      255       1       1       0   .abs_section_255
      _WOMM                                      256       1       1       0   .abs_section_256
      _MODRR                                     257       1       1       0   .abs_section_257
-     _PTP                                       258       1       1       1   .abs_section_258
+     _PTP                                       258       1       1       0   .abs_section_258
      _PTIP                                      259       1       1       0   .abs_section_259
-     _DDRP                                      25A       1       1       1   .abs_section_25a
+     _DDRP                                      25A       1       1       0   .abs_section_25a
      _RDRP                                      25B       1       1       0   .abs_section_25b
      _PERP                                      25C       1       1       0   .abs_section_25c
      _PPSP                                      25D       1       1       0   .abs_section_25d
@@ -1733,9 +1728,9 @@ OBJECT LIST SORTED BY ADDRESS
      _PPSH                                      265       1       1       0   .abs_section_265
      _PIEH                                      266       1       1       0   .abs_section_266
      _PIFH                                      267       1       1       0   .abs_section_267
-     _PTJ                                       268       1       1       1   .abs_section_268
+     _PTJ                                       268       1       1       0   .abs_section_268
      _PTIJ                                      269       1       1       0   .abs_section_269
-     _DDRJ                                      26A       1       1       1   .abs_section_26a
+     _DDRJ                                      26A       1       1       0   .abs_section_26a
      _RDRJ                                      26B       1       1       0   .abs_section_26b
      _PERJ                                      26C       1       1       0   .abs_section_26c
      _PPSJ                                      26D       1       1       0   .abs_section_26d
@@ -1800,42 +1795,45 @@ OBJECT LIST SORTED BY ADDRESS
      _CAN4TXDLR                                 2BC       1       1       0   .abs_section_2bc
      _CAN4TXTBPR                                2BD       1       1       0   .abs_section_2bd
      _CAN4TXTSR                                 2BE       2       2       0   .abs_section_2be
-     _Startup                                  C000       B      11       0   .init       
-     initI2C                                 308000      14      20       2   .text       
-     sendSlaveID                             308014      15      21       2   .text       
-     openDisp                                308029      21      33       2   .text       
-     PLL_init                                30804A      14      20       2   .text       
-     led_init                                30805E      1B      27       2   .text       
-     led_write                               308079       3       3       2   .text       
-     main                                    30807C      25      37       2   .text       
-     Init                                    3080A1      29      41       2   .text       
+     _Startup                                  C000      10      16       0   .init       
+     MSDelay                                   C010      1F      31       6   .text       
+     PLL_init                                  C02F      14      20       1   .text       
+     initI2C                                   C043       E      14       1   .text       
+     setSlaveID                                C051      18      24       1   .text       
+     sendByteI2C                               C069       B      11       5   .text       
+     beginTransmit                             C074       3       3       3   .text       
+     endTransmit                               C077       7       7       3   .text       
+     initDisp                                  C07E      1C      28       1   .text       
+     writeDisp                                 C09A      2F      47       3   .text       
+     main                                      C0C9      66     102       1   .text       
 
 *********************************************************************************************
 UNUSED-OBJECTS SECTION
 ---------------------------------------------------------------------------------------------
+NOT USED PROCEDURES
+main.c.o:
+  checkAck blinkRate setBrightness 
 NOT USED VARIABLES
 main.c.o:
-  numbertable buffer 
+  numbertable 
 
 *********************************************************************************************
 COPYDOWN SECTION
 ---------------------------------------------------------------------------------------------
-------- ROM-ADDRESS: 0xC015 ---- SIZE       2 ---
-Filling bytes inserted
- 0000
 
 *********************************************************************************************
 OBJECT-DEPENDENCIES SECTION
 ---------------------------------------------------------------------------------------------
-_Startup                  USES __SEG_END_SSTACK Init main 
-initI2C                   USES _IBFD _IBAD _IBCR 
-sendSlaveID               USES _IBSR _IBCR _IBDR 
-openDisp                  USES sendSlaveID _IBSR _IBDR _IBCR 
+_Startup                  USES __SEG_END_SSTACK main 
 PLL_init                  USES _SYNR _REFDV _PLLCTL _CRGFLG _CLKSEL 
-led_init                  USES _DDRJ _PTJ _DDRAB _PORTAB _DDRP _PTP 
-led_write                 USES _PORTAB 
-main                      USES PLL_init led_init initI2C openDisp led_write 
-Init                      USES _startupData 
+initI2C                   USES _IBCR _IBFD 
+setSlaveID                USES _IBSR _IBAD _IBCR _IBDR MSDelay 
+sendByteI2C               USES _IBDR MSDelay _IBSR 
+beginTransmit             USES setSlaveID 
+endTransmit               USES _IBCR _IBSR 
+initDisp                  USES beginTransmit sendByteI2C endTransmit 
+writeDisp                 USES beginTransmit sendByteI2C endTransmit 
+main                      USES PLL_init initI2C MSDelay initDisp writeDisp 
 
 *********************************************************************************************
 DEPENDENCY TREE
@@ -1846,20 +1844,34 @@ DEPENDENCY TREE
  |  | 
  |  +- PLL_init            
  |  |    
- |  +- led_init            
- |  |    
  |  +- initI2C             
  |  |    
- |  +- openDisp            
+ |  +- MSDelay             
+ |  |    
+ |  +- initDisp            
  |  |  | 
- |  |  +- sendSlaveID         
+ |  |  +- beginTransmit       
+ |  |  |  | 
+ |  |  |  +- setSlaveID          
+ |  |  |     | 
+ |  |  |     +- MSDelay              (see above)
+ |  |  |        
+ |  |  +- sendByteI2C         
+ |  |  |  | 
+ |  |  |  +- MSDelay              (see above)
+ |  |  |     
+ |  |  +- endTransmit         
  |  |       
- |  +- led_write           
- |       
+ |  +- writeDisp           
+ |     | 
+ |     +- beginTransmit        (see above)
+ |     |  
+ |     +- sendByteI2C          (see above)
+ |     |  
+ |     +- endTransmit          (see above)
+ |        
  +- _Startup            
     | 
-    +- Init                
-    |    
     +- main                 (see above)
        
 *********************************************************************************************
@@ -1868,6 +1880,6 @@ STATISTIC SECTION
 
 ExeFile:
 --------
-Number of blocks to be downloaded: 5
-Total size of all blocks to be downloaded: 227
+Number of blocks to be downloaded: 2
+Total size of all blocks to be downloaded: 305
 
