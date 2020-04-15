@@ -30,8 +30,8 @@ SECTION-ALLOCATION SECTION
 Section Name                    Size  Type     From       To       Segment
 ---------------------------------------------------------------------------------------------
 .init                             16     R     0xC000     0xC00F   ROM_C000
-.rodata1                          49     R     0xC010     0xC040   ROM_C000
-.text                            834     R     0xC041     0xC382   ROM_C000
+.rodata1                          48     R     0xC010     0xC03F   ROM_C000
+.text                            834     R     0xC040     0xC381   ROM_C000
 .stack                           256   R/W     0x1000     0x10FF   RAM
 .abs_section_8                     1   N/I        0x8        0x8   .absSeg0
 .abs_section_9                     1   N/I        0x9        0x9   .absSeg1
@@ -377,11 +377,11 @@ Section Name                    Size  Type     From       To       Segment
 .abs_section_ffd4                  2     R     0xFFD4     0xFFD5   .absSeg341
 .bss                               4   R/W     0x1100     0x1103   RAM
 .common                          550   R/W     0x1104     0x1329   RAM
-RUNTIME                           44     R     0xC383     0xC3AE   ROM_C000
+RUNTIME                           44     R     0xC382     0xC3AD   ROM_C000
 .vectSeg342_vect                   2     R     0xFFFE     0xFFFF   .vectSeg342
 
 Summary of section sizes per section type:
-READ_ONLY (R):         3B3 (dec:      947)
+READ_ONLY (R):         3B2 (dec:      946)
 READ_WRITE (R/W):      32A (dec:      810)
 NO_INIT (N/I):         190 (dec:      400)
 
@@ -741,11 +741,11 @@ MODULE:                 -- mc9s12dg256.c.o --
      _CAN4TXTSR                                 2BE       2       2       0   .abs_section_2be
 MODULE:                 -- main.c.o --
 - PROCEDURES:
-     init                                      C041       9       9       1   .text       
-     main                                      C04A      7B     123       1   .text       
+     init                                      C040       9       9       1   .text       
+     main                                      C049      7B     123       1   .text       
 - VARIABLES:
-     STRING.SpaceTime.ECE3720....1             C010      19      25       1   .rodata1    
-     STRING.Final.Project........2             C029      18      24       1   .rodata1    
+     STRING.SpaceTime............1             C010      18      24       1   .rodata1    
+     STRING.Final.Project........2             C028      18      24       1   .rodata1    
      displaybuffer                             1104      10      16       4   .common     
 MODULE:                 -- Start12.c.o --
 - PROCEDURES:
@@ -755,20 +755,20 @@ MODULE:                 -- Start12.c.o --
      __SEG_END_SSTACK                          1100       0       0       1               
 MODULE:                 -- rtshc12.c.o (ansisi.lib) --
 - PROCEDURES:
-     _LCMP_P                                   C383      15      21       1   RUNTIME     
-     _LDEC                                     C398       8       8       1   RUNTIME     
-     _LMULU16x32                               C3A0       F      15       1   RUNTIME     
+     _LCMP_P                                   C382      15      21       1   RUNTIME     
+     _LDEC                                     C397       8       8       1   RUNTIME     
+     _LMULU16x32                               C39F       F      15       1   RUNTIME     
 - VARIABLES:
 MODULE:                 -- GPS.c.o --
 - PROCEDURES:
-     SCI1_ISR                                  C0C5      47      71       1   .text       
-     setCurrentTime                            C10C      6D     109       1   .text       
-     getCurrentTimeCharacter                   C179       7       7       1   .text       
-     initUART2                                 C180      13      19       1   .text       
-     getBufferCharacter                        C193       7       7       1   .text       
-     getTimeStringCharacter                    C19A       7       7       1   .text       
-     updateTimeString                          C1A1      6C     108       1   .text       
-     updateDateString                          C20D      69     105       1   .text       
+     SCI1_ISR                                  C0C4      47      71       1   .text       
+     setCurrentTime                            C10B      6D     109       1   .text       
+     getCurrentTimeCharacter                   C178       7       7       1   .text       
+     initUART2                                 C17F      13      19       1   .text       
+     getBufferCharacter                        C192       7       7       1   .text       
+     getTimeStringCharacter                    C199       7       7       1   .text       
+     updateTimeString                          C1A0      6C     108       1   .text       
+     updateDateString                          C20C      69     105       1   .text       
 - VARIABLES:
      bufferPosition                            1100       2       2       6   .bss        
      commaCount                                1102       2       2       4   .bss        
@@ -779,18 +779,18 @@ MODULE:                 -- GPS.c.o --
      currentTime                               1321       9       9       6   .common     
 MODULE:                 -- lcd.c.o --
 - PROCEDURES:
-     uSDelay                                   C276      24      36       3   .text       
-     sendLCD                                   C29A      36      54       7   .text       
-     clearLCD                                  C2D0       8       8       2   .text       
-     homeLCD                                   C2D8       8       8       1   .text       
-     initLCD                                   C2E0      3C      60       1   .text       
-     writeLine                                 C31C      2C      44       2   .text       
-     writeChar                                 C348       8       8       1   .text       
+     uSDelay                                   C275      24      36       3   .text       
+     sendLCD                                   C299      36      54       7   .text       
+     clearLCD                                  C2CF       8       8       2   .text       
+     homeLCD                                   C2D7       8       8       1   .text       
+     initLCD                                   C2DF      3C      60       1   .text       
+     writeLine                                 C31B      2C      44       2   .text       
+     writeChar                                 C347       8       8       1   .text       
 - VARIABLES:
 MODULE:                 -- basics.c.o --
 - PROCEDURES:
-     MSDelay                                   C350      1F      31       1   .text       
-     PLL_init                                  C36F      14      20       1   .text       
+     MSDelay                                   C34F      1F      31       1   .text       
+     PLL_init                                  C36E      14      20       1   .text       
 - VARIABLES:
 
 *********************************************************************************************
@@ -798,7 +798,7 @@ MODULE STATISTIC
   Name                                      Data   Code  Const
 ---------------------------------------------------------------------------------------------
   mc9s12dg256.c.o                            400      0      0
-  main.c.o                                    16    132     49
+  main.c.o                                    16    132     48
   Start12.c.o                                  0     16      0
   rtshc12.c.o (ansisi.lib)                     0     44      0
   GPS.c.o                                    538    433      2
@@ -818,7 +818,7 @@ SECTION: ".bss"
 SECTION: ".init"
   _Startup 
 SECTION: ".rodata1"
-  STRING.SpaceTime.ECE3720....1 STRING.Final.Project........2 
+  STRING.SpaceTime............1 STRING.Final.Project........2 
 SECTION: ".abs_section_8"
   _PORTE 
 SECTION: ".abs_section_9"
@@ -1861,30 +1861,30 @@ OBJECT LIST SORTED BY ADDRESS
      timeString                                131A       7       7      10   .common     
      currentTime                               1321       9       9       6   .common     
      _Startup                                  C000      10      16       0   .init       
-     STRING.SpaceTime.ECE3720....1             C010      19      25       1   .rodata1    
-     STRING.Final.Project........2             C029      18      24       1   .rodata1    
-     init                                      C041       9       9       1   .text       
-     main                                      C04A      7B     123       1   .text       
-     SCI1_ISR                                  C0C5      47      71       1   .text       
-     setCurrentTime                            C10C      6D     109       1   .text       
-     getCurrentTimeCharacter                   C179       7       7       1   .text       
-     initUART2                                 C180      13      19       1   .text       
-     getBufferCharacter                        C193       7       7       1   .text       
-     getTimeStringCharacter                    C19A       7       7       1   .text       
-     updateTimeString                          C1A1      6C     108       1   .text       
-     updateDateString                          C20D      69     105       1   .text       
-     uSDelay                                   C276      24      36       3   .text       
-     sendLCD                                   C29A      36      54       7   .text       
-     clearLCD                                  C2D0       8       8       2   .text       
-     homeLCD                                   C2D8       8       8       1   .text       
-     initLCD                                   C2E0      3C      60       1   .text       
-     writeLine                                 C31C      2C      44       2   .text       
-     writeChar                                 C348       8       8       1   .text       
-     MSDelay                                   C350      1F      31       1   .text       
-     PLL_init                                  C36F      14      20       1   .text       
-     _LCMP_P                                   C383      15      21       1   RUNTIME     
-     _LDEC                                     C398       8       8       1   RUNTIME     
-     _LMULU16x32                               C3A0       F      15       1   RUNTIME     
+     STRING.SpaceTime............1             C010      18      24       1   .rodata1    
+     STRING.Final.Project........2             C028      18      24       1   .rodata1    
+     init                                      C040       9       9       1   .text       
+     main                                      C049      7B     123       1   .text       
+     SCI1_ISR                                  C0C4      47      71       1   .text       
+     setCurrentTime                            C10B      6D     109       1   .text       
+     getCurrentTimeCharacter                   C178       7       7       1   .text       
+     initUART2                                 C17F      13      19       1   .text       
+     getBufferCharacter                        C192       7       7       1   .text       
+     getTimeStringCharacter                    C199       7       7       1   .text       
+     updateTimeString                          C1A0      6C     108       1   .text       
+     updateDateString                          C20C      69     105       1   .text       
+     uSDelay                                   C275      24      36       3   .text       
+     sendLCD                                   C299      36      54       7   .text       
+     clearLCD                                  C2CF       8       8       2   .text       
+     homeLCD                                   C2D7       8       8       1   .text       
+     initLCD                                   C2DF      3C      60       1   .text       
+     writeLine                                 C31B      2C      44       2   .text       
+     writeChar                                 C347       8       8       1   .text       
+     MSDelay                                   C34F      1F      31       1   .text       
+     PLL_init                                  C36E      14      20       1   .text       
+     _LCMP_P                                   C382      15      21       1   RUNTIME     
+     _LDEC                                     C397       8       8       1   RUNTIME     
+     _LMULU16x32                               C39F       F      15       1   RUNTIME     
      _Vector_21                                FFD4       2       2       0   .abs_section_ffd4
 
 *********************************************************************************************
@@ -1920,7 +1920,7 @@ OBJECT-DEPENDENCIES SECTION
 ---------------------------------------------------------------------------------------------
 _Startup                  USES __SEG_END_SSTACK main 
 init                      USES initLCD PLL_init initUART2 
-main                      USES _DDRAB init STRING.SpaceTime.ECE3720....1 
+main                      USES _DDRAB init STRING.SpaceTime............1 
                                 writeLine STRING.Final.Project........2 MSDelay clearLCD 
                                 homeLCD getBufferCharacter writeChar displaybuffer 
                                 getCurrentTimeCharacter getTimeStringCharacter 
@@ -2017,6 +2017,6 @@ STATISTIC SECTION
 
 ExeFile:
 --------
-Number of blocks to be downloaded: 5
-Total size of all blocks to be downloaded: 947
+Number of blocks to be downloaded: 4
+Total size of all blocks to be downloaded: 946
 

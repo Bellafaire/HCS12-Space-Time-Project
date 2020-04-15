@@ -1,5 +1,5 @@
 *** EVALUATION ***
-PROGRAM "C:\Users\Nick\Documents\Project_3\bin\Project.absHCS12_Serial_Monitor.abs"
+PROGRAM "C:\Users\Nick\Documents\Repos\HCS12-Space-Time-Project\I2C Components\Working I2C Code\bin\Project.absHCS12_Serial_Monitor.abs"
 
 *********************************************************************************************
 TARGET SECTION
@@ -15,6 +15,7 @@ FILE SECTION
 mc9s12dg256.c.o                         Model: SMALL,         Lang: ANSI-C
 main.c.o                                Model: SMALL,         Lang: ANSI-C
 Start12.c.o                             Model: SMALL,         Lang: ANSI-C
+rtshc12.c.o (ansisi.lib)                Model: SMALL,         Lang: ANSI-C
 
 *********************************************************************************************
 STARTUP SECTION
@@ -26,7 +27,9 @@ SECTION-ALLOCATION SECTION
 Section Name                    Size  Type     From       To       Segment
 ---------------------------------------------------------------------------------------------
 .init                             16     R     0xC000     0xC00F   ROM_C000
-.text                            287     R     0xC010     0xC12E   ROM_C000
+.rodata                           16     R     0xC010     0xC01F   ROM_C000
+.rodata1                           5     R     0xC020     0xC024   ROM_C000
+.text                            524     R     0xC025     0xC230   ROM_C000
 .stack                           256   R/W     0x1000     0x10FF   RAM
 .abs_section_8                     1   N/I        0x8        0x8   .absSeg0
 .abs_section_9                     1   N/I        0x9        0x9   .absSeg1
@@ -369,10 +372,11 @@ Section Name                    Size  Type     From       To       Segment
 .abs_section_17e                   2   N/I      0x17E      0x17F   .absSeg338
 .abs_section_2ae                   2   N/I      0x2AE      0x2AF   .absSeg339
 .abs_section_2be                   2   N/I      0x2BE      0x2BF   .absSeg340
+RUNTIME                           11     R     0xC231     0xC23B   ROM_C000
 .vectSeg341_vect                   2     R     0xFFFE     0xFFFF   .vectSeg341
 
 Summary of section sizes per section type:
-READ_ONLY (R):         131 (dec:      305)
+READ_ONLY (R):         23E (dec:      574)
 READ_WRITE (R/W):      100 (dec:      256)
 NO_INIT (N/I):         190 (dec:      400)
 
@@ -732,31 +736,42 @@ MODULE:                 -- mc9s12dg256.c.o --
      _CAN4TXTSR                                 2BE       2       2       0   .abs_section_2be
 MODULE:                 -- main.c.o --
 - PROCEDURES:
-     MSDelay                                   C010      1F      31       6   .text       
-     PLL_init                                  C02F      14      20       1   .text       
-     initI2C                                   C043       E      14       1   .text       
-     setSlaveID                                C051      18      24       1   .text       
-     sendByteI2C                               C069       B      11       5   .text       
-     beginTransmit                             C074       3       3       3   .text       
-     endTransmit                               C077       7       7       3   .text       
-     initDisp                                  C07E      1C      28       1   .text       
-     writeDisp                                 C09A      2F      47       3   .text       
-     main                                      C0C9      66     102       1   .text       
+     MSDelay                                   C025      1F      31       7   .text       
+     PLL_init                                  C044      14      20       1   .text       
+     initI2C                                   C058       E      14       1   .text       
+     setSlaveID                                C066      18      24       1   .text       
+     sendByteI2C                               C07E       B      11       5   .text       
+     beginTransmit                             C089       3       3       3   .text       
+     endTransmit                               C08C       7       7       3   .text       
+     initDisp                                  C093      20      32       1   .text       
+     writeDisp                                 C0B3      36      54       3   .text       
+     toggleColon                               C0E9      25      37       1   .text       
+     writeDigit                                C10E      35      53       2   .text       
+     writeNumHex                               C143      46      70       1   .text       
+     writeNumASCII                             C189      38      56       1   .text       
+     main                                      C1C1      70     112       1   .text       
 - VARIABLES:
+     numbertable                               C010      10      16       1   .rodata     
+     STRING.1234.1                             C020       5       5       1   .rodata1    
 MODULE:                 -- Start12.c.o --
 - PROCEDURES:
      _Startup                                  C000      10      16       0   .init       
 - VARIABLES:
 - LABELS:
      __SEG_END_SSTACK                          1100       0       0       1               
+MODULE:                 -- rtshc12.c.o (ansisi.lib) --
+- PROCEDURES:
+     _ISHRU                                    C231       B      11       1   RUNTIME     
+- VARIABLES:
 
 *********************************************************************************************
 MODULE STATISTIC
   Name                                      Data   Code  Const
 ---------------------------------------------------------------------------------------------
   mc9s12dg256.c.o                            400      0      0
-  main.c.o                                     0    287      0
+  main.c.o                                     0    524     21
   Start12.c.o                                  0     16      0
+  rtshc12.c.o (ansisi.lib)                     0     11      0
   other                                      256      2      0
 
 *********************************************************************************************
@@ -764,9 +779,13 @@ SECTION USE IN OBJECT-ALLOCATION SECTION
 ---------------------------------------------------------------------------------------------
 SECTION: ".text"
   MSDelay PLL_init initI2C setSlaveID sendByteI2C beginTransmit endTransmit 
-  initDisp writeDisp main 
+  initDisp writeDisp toggleColon writeDigit writeNumHex writeNumASCII main 
 SECTION: ".init"
   _Startup 
+SECTION: ".rodata"
+  numbertable 
+SECTION: ".rodata1"
+  STRING.1234.1 
 SECTION: ".abs_section_8"
   _PORTE 
 SECTION: ".abs_section_9"
@@ -1449,6 +1468,8 @@ SECTION: ".abs_section_2ae"
   _CAN4RXTSR 
 SECTION: ".abs_section_2be"
   _CAN4TXTSR 
+SECTION: "RUNTIME"
+  _ISHRU 
 
 *********************************************************************************************
 OBJECT LIST SORTED BY ADDRESS
@@ -1796,26 +1817,40 @@ OBJECT LIST SORTED BY ADDRESS
      _CAN4TXTBPR                                2BD       1       1       0   .abs_section_2bd
      _CAN4TXTSR                                 2BE       2       2       0   .abs_section_2be
      _Startup                                  C000      10      16       0   .init       
-     MSDelay                                   C010      1F      31       6   .text       
-     PLL_init                                  C02F      14      20       1   .text       
-     initI2C                                   C043       E      14       1   .text       
-     setSlaveID                                C051      18      24       1   .text       
-     sendByteI2C                               C069       B      11       5   .text       
-     beginTransmit                             C074       3       3       3   .text       
-     endTransmit                               C077       7       7       3   .text       
-     initDisp                                  C07E      1C      28       1   .text       
-     writeDisp                                 C09A      2F      47       3   .text       
-     main                                      C0C9      66     102       1   .text       
+     numbertable                               C010      10      16       1   .rodata     
+     STRING.1234.1                             C020       5       5       1   .rodata1    
+     MSDelay                                   C025      1F      31       7   .text       
+     PLL_init                                  C044      14      20       1   .text       
+     initI2C                                   C058       E      14       1   .text       
+     setSlaveID                                C066      18      24       1   .text       
+     sendByteI2C                               C07E       B      11       5   .text       
+     beginTransmit                             C089       3       3       3   .text       
+     endTransmit                               C08C       7       7       3   .text       
+     initDisp                                  C093      20      32       1   .text       
+     writeDisp                                 C0B3      36      54       3   .text       
+     toggleColon                               C0E9      25      37       1   .text       
+     writeDigit                                C10E      35      53       2   .text       
+     writeNumHex                               C143      46      70       1   .text       
+     writeNumASCII                             C189      38      56       1   .text       
+     main                                      C1C1      70     112       1   .text       
+     _ISHRU                                    C231       B      11       1   RUNTIME     
 
 *********************************************************************************************
 UNUSED-OBJECTS SECTION
 ---------------------------------------------------------------------------------------------
 NOT USED PROCEDURES
 main.c.o:
-  checkAck blinkRate setBrightness 
+  checkAck blinkRate setBrightness writeNumDec 
+rtshc12.c.o (ansisi.lib):
+  _BSHL _BSHRS _BSHRU _BDIVMODU _BDIVMODS _ISHL _ISHRS _LSHL _LSHRU _LSHRS 
+  _LADD _LSUB _LAND _LOR _LXOR _LCMP _LCMP_P _LCMP_PP _LNEG _LCOM _LINC _LDEC 
+  _LMUL _LMULU16x32 _LMULS16x32 _lDivMod _LDIVU _NEG_P _LDIVS _LMODU _LMODS 
+  _ILSEXT _COPY _CASE_DIRECT _CASE_DIRECT_BYTE _CASE_CHECKED _CASE_CHECKED_BYTE 
+  _CASE_SEARCH _CASE_SEARCH_BYTE _CASE_SEARCH_8 _CASE_SEARCH_8_BYTE _FCALL 
+  _FPCMP 
 NOT USED VARIABLES
-main.c.o:
-  numbertable 
+rtshc12.c.o (ansisi.lib):
+  _PowOfTwo_8 _PowOfTwo_16 _PowOfTwo_32 errno 
 
 *********************************************************************************************
 COPYDOWN SECTION
@@ -1833,7 +1868,11 @@ beginTransmit             USES setSlaveID
 endTransmit               USES _IBCR _IBSR 
 initDisp                  USES beginTransmit sendByteI2C endTransmit 
 writeDisp                 USES beginTransmit sendByteI2C endTransmit 
+writeDigit                USES numbertable 
+writeNumHex               USES _ISHRU writeDigit 
+writeNumASCII             USES writeDigit 
 main                      USES PLL_init initI2C MSDelay initDisp writeDisp 
+                                writeNumHex STRING.1234.1 writeNumASCII toggleColon 
 
 *********************************************************************************************
 DEPENDENCY TREE
@@ -1863,13 +1902,25 @@ DEPENDENCY TREE
  |  |  +- endTransmit         
  |  |       
  |  +- writeDisp           
- |     | 
- |     +- beginTransmit        (see above)
- |     |  
- |     +- sendByteI2C          (see above)
- |     |  
- |     +- endTransmit          (see above)
- |        
+ |  |  | 
+ |  |  +- beginTransmit        (see above)
+ |  |  |  
+ |  |  +- sendByteI2C          (see above)
+ |  |  |  
+ |  |  +- endTransmit          (see above)
+ |  |     
+ |  +- writeNumHex         
+ |  |  | 
+ |  |  +- _ISHRU              
+ |  |  |    
+ |  |  +- writeDigit          
+ |  |       
+ |  +- writeNumASCII       
+ |  |  | 
+ |  |  +- writeDigit           (see above)
+ |  |     
+ |  +- toggleColon         
+ |       
  +- _Startup            
     | 
     +- main                 (see above)
@@ -1880,6 +1931,6 @@ STATISTIC SECTION
 
 ExeFile:
 --------
-Number of blocks to be downloaded: 2
-Total size of all blocks to be downloaded: 305
+Number of blocks to be downloaded: 3
+Total size of all blocks to be downloaded: 574
 

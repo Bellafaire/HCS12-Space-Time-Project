@@ -50,6 +50,7 @@ void PLL_init(void)
     CLKSEL = 0x80; 
 } 
 
+/* Starts I2C module as master */
 void initI2C(void) 
 {
   IBCR_IBEN = 1; // initalize I2C Bus
@@ -60,6 +61,7 @@ void initI2C(void)
     
 }
 
+/* Generates start condition for communication with requested slave */
 void setSlaveID(char id)
 {
   while (IBSR_IBB);  // wait until I2C bus is idle
@@ -72,6 +74,8 @@ void setSlaveID(char id)
   
 }
 
+/* Checks to see if a byte transmission was successfully received by the slave
+   Returns 0 if successful, -1 if slave did not adknowledge the data. */
 char checkAck(void) 
 {
   if (IBSR_RXAK)
@@ -80,6 +84,8 @@ char checkAck(void)
     return 0;
 }
 
+/* Sends a byte via I2C
+   cx = byte to send */
 void sendByteI2C(char cx) 
 {
   IBDR = cx;                  // send byte
@@ -90,17 +96,29 @@ void sendByteI2C(char cx)
   //return checkAck();
 }
 
+/* Called prior to transmitting data
+   id = I2C_ID of device to communicate with
+   Generates start condition and sends slave ID */
 void beginTransmit(char id) 
 {
   setSlaveID(id); 
 }
 
+/* Called after the end of each communication string
+   Generates the stop condition */
 void endTransmit() 
 {
   IBCR_MS_SL = 0; // generates stop condition 
   IBSR_IBIF = 1; 
 }
 
+/* Sets rate for whole device blinking
+   Use one of the following defines
+   HT16K33_BLINK_OFF 
+   HT16K33_BLINK_2HZ
+   HT16K33_BLINK_1HZ  
+   HT16K33_BLINK_HALFHZ */
+     
 void blinkRate(unsigned char b) 
 {
   beginTransmit(DISP_I2C_ADDR);
@@ -109,6 +127,8 @@ void blinkRate(unsigned char b)
   endTransmit();  
 }
 
+/* Sets brightness of the display
+   b = Value between 0 and 15 */ 
 void setBrightness(unsigned char b) 
 {
   if (b > 15) b = 15;
@@ -117,8 +137,11 @@ void setBrightness(unsigned char b)
   endTransmit();  
 }
 
+/* Initalize the display
+   Call after initalizing I2C */
 void initDisp(void) 
 {
+  DisableInterrupts;
   beginTransmit(DISP_I2C_ADDR);
   sendByteI2C(0x21); // turn on oscillator)
   endTransmit();
@@ -130,11 +153,17 @@ void initDisp(void)
   beginTransmit(DISP_I2C_ADDR);
   sendByteI2C(HT16K33_CMD_BRIGHTNESS | 15);
   endTransmit();
+  EnableInterrupts;
 	  
 }
 
+/* Pass in the buffer (8 unsigned integers), it pushes to the LEDs
+   Any of the below functions that modify the buffer need this function to be ran to actually see the changes.
+*/
+
 void writeDisp(unsigned int* buffer) {
   int i;
+  DisableInterrupts;
   beginTransmit(DISP_I2C_ADDR);
   sendByteI2C(0x00); // sets initial location
   
@@ -144,7 +173,84 @@ void writeDisp(unsigned int* buffer) {
     sendByteI2C(out >> 8);
   }
   endTransmit();
+  EnableInterrupts;
 }
+
+/* toggles decimal points (1 turns on, 0 turns off)
+   buffer = buffer to pass
+   bit 0 - lower dot
+   bit 1 - upper dot
+   bit 2 - colon
+   Ex: 0b101 = 0x5 = colon and lower dot on */
+   
+void toggleColon(unsigned int* buffer, char state) {
+  buffer[2] = (0x02 * (state >> 2)) + (0x04 * (0x01 & state >> 1) + (0x08 * (0x01 & state)));
+}
+
+/* writes a single digit to the buffer at a given position
+   buffer = self-explanatory
+   pos = requested position (between 1 to 4, from left to right)
+   d = data value from 0 to f (to turn the digit off, set 0x10 */
+
+void writeDigit(unsigned int* buffer, char d, char pos) {
+  unsigned int idx, val;
+  if (pos > 4) return;
+  idx = pos;
+  if (pos <= 2) idx -= 1;
+  
+  if (d == 0x10) val = 0x00;
+  else val = numbertable[d];
+  
+  buffer[idx] = val;
+}
+
+/* writes an entire 4 digit number to the buffer at once in decimal
+   buffer = you need this
+   d = data value from 0 to 9999 */
+   
+void writeNumDec(unsigned int* buffer, unsigned int d) {
+  int parts[4];
+  int i;
+  parts[3] = d % 10;
+  parts[2] = d % 100 / 10;
+  parts[1] = d % 1000 / 100;
+  parts[0] = d / 1000;
+  
+  for (i = 0; i < 4; i++) {
+    writeDigit(buffer, parts[i], i+1);
+  }
+}
+
+/* writes an entire 4 digit number to the buffer at once in hex
+   buffer = you need this
+   d = data value from 0 to FFFF */
+   
+void writeNumHex(unsigned int* buffer, unsigned int d) {
+  int parts[4];
+  int i;
+  parts[3] = d % 0x10;
+  parts[2] = d % 0x100 / 0x10;
+  parts[1] = d % 0x1000 / 0x100;
+  parts[0] = d / 0x1000;
+  
+  for (i = 0; i < 4; i++) {
+    writeDigit(buffer, parts[i], i+1);
+  }
+}
+
+/* writes an entire 4 digit number to the buffer at once from a string (no hex)
+   buffer = you need this
+   str = input string (only looks at first four characters, so formatting should not matter) */
+
+void writeNumASCII(unsigned int* buffer, char* str) {
+ int parts[4];
+ int i;
+ for (i = 0; i < 4; i++) {
+  parts[i] = str[i] & 0x0F;
+  writeDigit(buffer, parts[i], i+1);
+ }
+}
+   
 
 
 void main(void) {
@@ -162,29 +268,20 @@ void main(void) {
   writeDisp(buffer);
   MSDelay(10);
 
-	//EnableInterrupts;
-
-    while(1) {
-      
-    buffer[0] = numbertable[0xb];
-    buffer[1] = numbertable[0xe];
-    buffer[3] = numbertable[0xe];
-    buffer[4] = numbertable[0xf];
+	EnableInterrupts;
+	
+  for(;;) {
+    
+   //buffer[2] = 0x02;
+    
+    writeNumHex(buffer, 0xbeef);
     writeDisp(buffer);
 
     MSDelay(1000);
     
-    buffer[0] = numbertable[0xf];
-    buffer[1] = numbertable[0xe];
-    buffer[3] = numbertable[0xe];
-    buffer[4] = numbertable[0xf];
+    writeNumASCII(buffer, "1234");
+    toggleColon(buffer, 0x02);
     writeDisp(buffer);
-    
-    MSDelay(1000);  
-    }
-  for(;;) {
-    
-   //buffer[2] = 0x02;
     
     MSDelay(1000);
     
