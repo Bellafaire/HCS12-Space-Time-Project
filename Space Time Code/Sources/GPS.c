@@ -160,7 +160,12 @@ char getDateStringCharacter(int index){
  return dateString[index]; 
 }
                  
-                 
+     
+//tests whether a given character is a number or not
+int isANumber(char c){
+    return (c >= '0' && c <= '9'); 
+}
+                
 /* The GPS module being used to read the time outputs "nmea Strings" since we only want to parse out a few bits of data
 namely the time we use this function. it is called sparingly in the ISR depending on the number of commas present 
 Both the time and date information are stored in the $GPRMC nmea string so we parse from tha
@@ -187,6 +192,13 @@ void updateTimeString(){
   //the time will be given in the format HHMMSS.000, we know the current position is relative to one of the commas in the 
   //NMEA string, so we just parse out the specific values we want as they relate. the resulting timeString is in format
   //HHMMSS, by default the values are given in UTC 
+  if( isANumber(serialBuffer[bufferPosition - 10]) &&
+  isANumber(serialBuffer[bufferPosition - 9]) &&
+  isANumber(serialBuffer[bufferPosition - 8]) &&
+  isANumber(serialBuffer[bufferPosition - 7]) &&
+  isANumber(serialBuffer[bufferPosition - 6]) &&
+  isANumber(serialBuffer[bufferPosition - 5])){
+    
      timeString[0] = serialBuffer[bufferPosition - 10];
      timeString[1] = serialBuffer[bufferPosition - 9];
      timeString[2] = serialBuffer[bufferPosition - 8];
@@ -195,7 +207,9 @@ void updateTimeString(){
      timeString[5] = serialBuffer[bufferPosition - 5];
      
      setCurrentTime(); //update the currentTime string so that we can get the desired timezone
+  }
 }
+
 
 
 /* This function is called from the UART ISR and parses the date string out of the NMEA string returned. 
