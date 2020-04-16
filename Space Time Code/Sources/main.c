@@ -72,6 +72,21 @@ void main(void) {
   // writes the current time to the 7-seg display
   writeNumASCII(segbuffer, displaybuffer); 
   
+  // Lights upper pip if AM, lower pip if PM
+  if (displaybuffer[6] == 'P') {
+    pips |= 0x01;
+    pips &= ~(0x02);
+  } else {
+    pips |= 0x02;
+    pips &= ~(0x01);
+  }
+  
+  // Should blink every second, however the GPS module is not regular
+  /*if (displaybuffer[5] % 2 == 1) {
+    pips |= 0x04;
+  } else {
+    pips &= ~(0x04);
+  }*/
   
   toggleColon(segbuffer, pips);
   
