@@ -25,22 +25,31 @@ void initI2C(void)
 {
   IBCR_IBEN = 1; // initalize I2C Bus
   IBFD = 0x1F;  // set up baud rate (100 kHz at 24 MHz bus frequency)
-  // IBAD = i2c_id;   // sets I2C slave address
+  IBAD = 0x02;   // sets I2C slave address
   IBCR_IBIE = 1; //disable I2C interrupt
   IBCR_IBSWAI = 1; // disable I2C in wait mode
     
+}
+
+
+/* Sends a byte via I2C
+   cx = byte to send */
+void sendByteI2C(char cx) 
+{
+  IBDR = cx;                  // send byte
+  //MSDelay(2);
+  while(!(IBSR_IBIF)); // wait for bus to clear
+  IBSR_IBIF = 1; // clear IBIF flag 
+  
+  //return checkAck();
 }
 
 /* Generates start condition for communication with requested slave */
 void setSlaveID(char id)
 {
   while (IBSR_IBB);  // wait until I2C bus is idle
-  IBAD = id; // Set up slave address for I2C
   IBCR |= 0b00110000; // generate a start condiiton 
-  IBDR = id; // Send slave address with R/W bit
-  MSDelay(2);
-  //while(!(IBSR_IBIF)); // wait for address transmition to complete
-  IBSR_IBIF = 1; // clear IBIF flag
+  sendByteI2C(id);
   
 }
 
@@ -52,18 +61,6 @@ char checkAck(void)
     return -1;
   else
     return 0;
-}
-
-/* Sends a byte via I2C
-   cx = byte to send */
-void sendByteI2C(char cx) 
-{
-  IBDR = cx;                  // send byte
-  MSDelay(2);
-  //while(!(IBSR_IBIF)); // wait for bus to clear
-  IBSR_IBIF = 1; // clear IBIF flag 
-  
-  //return checkAck();
 }
 
 /* Called prior to transmitting data
